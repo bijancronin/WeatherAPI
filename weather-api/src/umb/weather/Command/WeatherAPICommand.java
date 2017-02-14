@@ -5,7 +5,7 @@ import java.util.List;
 public interface WeatherAPICommand {
 	
 	// run the API with the APIKey and get a JSON response
-	String execute(APIKey key);
+	String execute(String req);
 	
 	// creste the request - usually at the base URL you add the APIKey string and the location
 	// the location is sometimes as a lat/long thing or as a city/state

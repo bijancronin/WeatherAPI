@@ -16,6 +16,15 @@ public class Main {
 		List<WeatherAPICommand> commands = new ArrayList<WeatherAPICommand>();
 		commands.add(darkSky);
 		
+		List<String> vals = new ArrayList<String>();
+		
+		vals.add("e80440fb1812b94394324d93d488f300");
+		vals.add("37.8267,-122.4233");
+		
+		String req = darkSky.createTheQuery(vals);
+		
+		String jsonResp = darkSky.execute(req);
+		
 		
 		
 	}
