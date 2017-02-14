@@ -7,6 +7,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
+import org.json.*;
 
 public class DarkSkyAPICommand implements WeatherAPICommand{
 	
@@ -52,7 +53,8 @@ public class DarkSkyAPICommand implements WeatherAPICommand{
 	@Override
 	public String parseResponse(String JSONResponse) {
 		
-		
+		JSONObject obj = new JSONObject(" .... ");
+		String pageName = obj.getJSONObject("pageInfo").getString("pageName");
 
 		return null;
 	}
