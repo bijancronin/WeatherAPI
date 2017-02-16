@@ -1,10 +1,10 @@
 package umb.weather.Command;
 
-public class APIKey {
+public class WeatherAPIKey {
 	
 	private String secretKey;
 	
-	APIKey(String key) {
+	WeatherAPIKey(String key) {
 		this.secretKey = key;
 	}
 

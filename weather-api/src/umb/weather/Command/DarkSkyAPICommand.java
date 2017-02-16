@@ -1,82 +1,59 @@
 package umb.weather.Command;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.List;
 import org.json.*;
+
+import tk.plogitech.darksky.forecast.APIKey;
+import tk.plogitech.darksky.forecast.DarkSkyClient;
+import tk.plogitech.darksky.forecast.ForecastException;
+import tk.plogitech.darksky.forecast.ForecastRequest;
+import tk.plogitech.darksky.forecast.ForecastRequestBuilder;
+import tk.plogitech.darksky.forecast.GeoCoordinates;
+import tk.plogitech.darksky.forecast.Latitude;
+import tk.plogitech.darksky.forecast.Longitude;
 
 public class DarkSkyAPICommand implements WeatherAPICommand{
 	
-	private APIKey key;
+	private WeatherAPIKey key;
 
 	@Override
-	public String execute(String req) {
-		String output = null;
+	public String execute(WeatherAPIKey key, WeatherAPIGeoLocation location) {
 		
-		try {
-
-            URL url = new URL(req);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("GET");
-            conn.setRequestProperty("Accept", "application/json");
-
-            if (conn.getResponseCode() != 200) {
-
-                throw new RuntimeException("Failed : HTTP error code : "
-                        + conn.getResponseCode());
-            }
-
-            BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
-
-            
-            System.out.println("Output from Server .... \n");
-            while ((output = br.readLine()) != null) {
-                System.out.println(output);
-            }
-
-            conn.disconnect();
-
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+		ForecastRequest request = new ForecastRequestBuilder()
+		        .key(new APIKey(key.getSecretKey()))
+		        .exclude(ForecastRequestBuilder.Block.minutely)
+		        .extendHourly()
+		        .location(new GeoCoordinates(new Longitude(location.getLongit()), new Latitude(location.getLat()))).build();
 		
-		return output;
+		DarkSkyClient client = new DarkSkyClient();
+		String forecast = null;
+	    try {
+			forecast = client.forecastJsonString(request);
+		} catch (ForecastException e) {
+			e.printStackTrace();
+		}
+		
+		return forecast;
 	}
 
 	@Override
 	public String parseResponse(String JSONResponse) {
 		
-		JSONObject obj = new JSONObject(" .... ");
-		String pageName = obj.getJSONObject("pageInfo").getString("pageName");
+		JSONObject obj = new JSONObject(JSONResponse);
+		JSONObject output = new JSONObject();
+		
+		// parse only the set of attributes we decided on
+		
 
 		return null;
 	}
 
-	public APIKey getKey() {
+	public WeatherAPIKey getKey() {
 		return key;
 	}
 
-	public void setKey(APIKey key) {
+	public void setKey(WeatherAPIKey key) {
 		this.key = key;
 	}
 
-	@Override
-	public String createTheQuery(List<String> vals) {
-		String req = "https://api.darksky.net/forecast/";
-		//"e80440fb1812b94394324d93d488f300/37.8267,-122.4233"
-		
-		for (String string : vals) {
-			req = req + string + "/";
-		}
-		
-		return req;
-	}
 
 }
