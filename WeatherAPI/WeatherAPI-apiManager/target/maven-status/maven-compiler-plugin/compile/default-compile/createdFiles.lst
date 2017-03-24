@@ -1,8 +1,0 @@
-com\weather\apiManager\command\WeatherAPIGeoLocation.class
-com\weather\apiManager\command\YahooAPICommand.class
-com\weather\apiManager\command\DarkSkyAPICommand.class
-com\weather\apiManager\command\WeatherAPIKey.class
-com\weather\apiManager\command\ForecaAPICommand.class
-com\weather\apiManager\command\OpenWeatherMapAPICommand.class
-com\weather\apiManager\command\WeatherAPICommand.class
-com\weather\apiManager\command\WeatherAPIManager.class

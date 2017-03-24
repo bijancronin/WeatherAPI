@@ -1,15 +1,20 @@
 package com.weather.apiManager.command;
 
+import java.util.List;
 import org.json.*;
+import tk.plogitech.darksky.api.jackson.DarkSkyJacksonClient;
 
 import tk.plogitech.darksky.forecast.APIKey;
-import tk.plogitech.darksky.forecast.DarkSkyClient;
 import tk.plogitech.darksky.forecast.ForecastException;
 import tk.plogitech.darksky.forecast.ForecastRequest;
 import tk.plogitech.darksky.forecast.ForecastRequestBuilder;
 import tk.plogitech.darksky.forecast.GeoCoordinates;
 import tk.plogitech.darksky.forecast.Latitude;
 import tk.plogitech.darksky.forecast.Longitude;
+import tk.plogitech.darksky.forecast.model.Alert;
+import tk.plogitech.darksky.forecast.model.DailyDataPoint;
+import tk.plogitech.darksky.forecast.model.DataPoint;
+import tk.plogitech.darksky.forecast.model.Forecast;
 
 public class DarkSkyAPICommand implements WeatherAPICommand{
 	
@@ -36,7 +41,10 @@ public class DarkSkyAPICommand implements WeatherAPICommand{
             json.append("\"icon\" : \"").append(forecast.getCurrently().getIcon()).append("\",");
             json.append("\"data\" : [");
             List<DataPoint> hourlyDataPoints = forecast.getHourly().getData();
-            int hourlyDataPointsSize = (hourlyDataPoints != null)?hourlyDataPoints.size():0;
+            
+            // We are only interested in next 24 hours. It return hourly for
+            // entire week. Hence returning 24
+            int hourlyDataPointsSize = (hourlyDataPoints != null)?24:0;
             for(int i=0; i<hourlyDataPointsSize; i++) {
                 DataPoint dataPoint = hourlyDataPoints.get(i);
                 json.append("{");
@@ -52,13 +60,13 @@ public class DarkSkyAPICommand implements WeatherAPICommand{
                 json.append("\"wind_bearing\" : \"").append(dataPoint.getWindBearing()).append("\",");
                 json.append("\"pressure\" : \"").append(dataPoint.getPressure()).append("\",");
                 json.append("\"visibility\" : \"").append(dataPoint.getVisibility()).append("\"");
-                if(i == hourlyDataPoints.size()-1) {
+                if(i == hourlyDataPointsSize-1) {
                     json.append("}");
                 } else {
                     json.append("},");
                 }
             }
-            json.append("],");
+            json.append("]},");
             json.append("\"daily\" : [");
             
             List<DailyDataPoint> dailyDataPoints = forecast.getDaily().getData();
@@ -76,8 +84,7 @@ public class DarkSkyAPICommand implements WeatherAPICommand{
                     json.append("},");
                 }
             }
-            json.append("]");
-            json.append("},");
+            json.append("],");
             json.append("\"alerts\" : [");
             List<Alert> alerts =  forecast.getAlerts();
             int alertsSize = (alerts != null)?alerts.size():0;
@@ -99,21 +106,13 @@ public class DarkSkyAPICommand implements WeatherAPICommand{
             ex.printStackTrace();
         }
         
-        //		DarkSkyClient client = new DarkSkyClient();
-        //		String forecast = null;
-        //	    try {
-        //			forecast = client.forecastJsonString(request);
-        //		} catch (ForecastException e) {
-        //			e.printStackTrace();
-        //		}
-        
         return json.toString();
-    }
-    
-    @Override
-    public String parseResponse(String JSONResponse) {
-        
-        JSONObject obj = new JSONObject(JSONResponse);
+	}
+
+	@Override
+	public String parseResponse(String JSONResponse) {
+		
+		JSONObject obj = new JSONObject(JSONResponse);
 		JSONObject output = new JSONObject();
 		
 		// parse only the set of attributes we decided on
@@ -129,6 +128,4 @@ public class DarkSkyAPICommand implements WeatherAPICommand{
 	public void setKey(WeatherAPIKey key) {
 		this.key = key;
 	}
-
-
 }
