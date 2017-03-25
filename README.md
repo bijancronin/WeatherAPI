@@ -66,4 +66,5 @@ Downloading and Building code
 FAQs
 --------------------------------------------------------------------------------------------------------
 1. While building code, maven complains "Not able to find Apixu jar".
+
 A. Follow instructions above under "Adding Apixu API jar in local maven repo" heading.
