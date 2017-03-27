@@ -15,8 +15,8 @@ public class ApixuAPITest {
         WeatherAPIGeoLocation location = new WeatherAPIGeoLocation();
         location.setLat(37.8267);
 		location.setLongit(-122.4233);
-        ApixuAPICommand command = new ApixuAPICommand();
-        String response = command.execute(key, location);
+        ApixuAPICommand command = new ApixuAPICommand(key, location);
+        String response = command.execute();
         System.out.println(response);
     }
 }

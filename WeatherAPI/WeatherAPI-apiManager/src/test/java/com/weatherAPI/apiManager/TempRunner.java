@@ -3,7 +3,7 @@ package com.weatherAPI.apiManager;
 public class TempRunner {
     public static void main(String gg[]) {
         /* Uncomment below lines to test API call */
-        // runApixu();
+        runApixu();
         // runDarkSky();
     }
     

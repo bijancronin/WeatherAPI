@@ -1,7 +1,11 @@
 package com.weather.apiManager.command;
 
+import com.weather.apiManager.dl.APIResponseBean;
+import com.weather.apiManager.dl.APIResponsesDAO;
+import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.List;
-import org.json.*;
+
 import tk.plogitech.darksky.api.jackson.DarkSkyJacksonClient;
 
 import tk.plogitech.darksky.forecast.APIKey;
@@ -17,18 +21,48 @@ import tk.plogitech.darksky.forecast.model.DataPoint;
 import tk.plogitech.darksky.forecast.model.Forecast;
 
 public class DarkSkyAPICommand implements WeatherAPICommand{
-	
-	private WeatherAPIKey key;
+    
+    private WeatherAPIKey key;
+    private WeatherAPIGeoLocation location;
 
-	@Override
-	public String execute(WeatherAPIKey key, WeatherAPIGeoLocation location) {
-		
-		ForecastRequest request = new ForecastRequestBuilder()
-		        .key(new APIKey(key.getSecretKey()))
-		        .exclude(ForecastRequestBuilder.Block.minutely)
-		        .extendHourly()
-		        .location(new GeoCoordinates(new Longitude(location.getLongit()), new Latitude(location.getLat()))).build();
-		
+    public DarkSkyAPICommand(WeatherAPIKey key, WeatherAPIGeoLocation location) {
+        this.key = key;
+        this.location = location;
+    }
+    
+    /**
+     * This method tries to find the JSON for given latitude and longitude
+     * in the database. If its not found in DB, it makes an API call and 
+     * stores the response in the DB for next use. Remember : Each entry in DB
+     * is valid for 1 hour.
+     * @return Returns JSON either fetched from API call or from DB. 
+     */
+    @Override
+    public String execute() {
+        APIResponsesDAO apiResponseDAO = new APIResponsesDAO();
+        String json = apiResponseDAO.getAPIResponse(
+                APIResponsesDAO.DARK_SKY, location);
+        if(json == null) {
+            json = getJSON();
+            APIResponseBean bean = new APIResponseBean();
+            bean.setLatitude(location.getLat());
+            bean.setLongitude(location.getLongit());
+            bean.setApi(APIResponsesDAO.DARK_SKY);
+            bean.setJson(json);
+            bean.setRequestTime(new Timestamp(Calendar.getInstance().getTimeInMillis()));
+            apiResponseDAO.addApiResponse(bean);
+        }
+        
+        return json;
+    }
+    
+    private String getJSON() {
+        ForecastRequest request = new ForecastRequestBuilder()
+            .key(new APIKey(key.getSecretKey()))
+            .exclude(ForecastRequestBuilder.Block.minutely)
+            .extendHourly()
+            .location(new GeoCoordinates(new Longitude(location.getLongit()), new Latitude(location.getLat()))).build();
+
         DarkSkyJacksonClient client = new DarkSkyJacksonClient();
         StringBuilder json = new StringBuilder(0);
         json.append("{");
@@ -41,7 +75,7 @@ public class DarkSkyAPICommand implements WeatherAPICommand{
             json.append("\"icon\" : \"").append(forecast.getCurrently().getIcon()).append("\",");
             json.append("\"data\" : [");
             List<DataPoint> hourlyDataPoints = forecast.getHourly().getData();
-            
+
             // We are only interested in next 24 hours. It return hourly for
             // entire week. Hence returning 24
             int hourlyDataPointsSize = (hourlyDataPoints != null)?24:0;
@@ -68,7 +102,7 @@ public class DarkSkyAPICommand implements WeatherAPICommand{
             }
             json.append("]},");
             json.append("\"daily\" : [");
-            
+
             List<DailyDataPoint> dailyDataPoints = forecast.getDaily().getData();
             int dailyDataPointsSize = (dailyDataPoints != null)?dailyDataPoints.size():0;
             for(int i=0; i<dailyDataPointsSize; i++) {
@@ -105,27 +139,7 @@ public class DarkSkyAPICommand implements WeatherAPICommand{
         } catch (ForecastException ex) {
             ex.printStackTrace();
         }
-        
+
         return json.toString();
-	}
-
-	@Override
-	public String parseResponse(String JSONResponse) {
-		
-		JSONObject obj = new JSONObject(JSONResponse);
-		JSONObject output = new JSONObject();
-		
-		// parse only the set of attributes we decided on
-		
-
-		return null;
-	}
-
-	public WeatherAPIKey getKey() {
-		return key;
-	}
-
-	public void setKey(WeatherAPIKey key) {
-		this.key = key;
-	}
+    }
 }

@@ -1,5 +1,7 @@
 package com.weather.apiManager.command;
 
+import com.weather.apiManager.dl.APIResponseBean;
+import com.weather.apiManager.dl.APIResponsesDAO;
 import com.weatherlibrary.datamodel.Current;
 import com.weatherlibrary.datamodel.Forecastday;
 import com.weatherlibrary.datamodel.Hour;
@@ -7,15 +9,50 @@ import com.weatherlibrary.datamodel.WeatherModel;
 import com.weatherlibraryjava.IRepository;
 import com.weatherlibraryjava.Repository;
 import com.weatherlibraryjava.RequestBlocks;
+import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.List;
 
 /**
- * We don't need to convert attributes explicitly.
+ * Future Note : We don't need to convert attributes explicitly.
  * APIXU provides this for us.
  */
 public class ApixuAPICommand implements WeatherAPICommand {
+    private WeatherAPIKey key;
+    private WeatherAPIGeoLocation location;
 
-    public String execute(WeatherAPIKey key, WeatherAPIGeoLocation location) {
+    public ApixuAPICommand(WeatherAPIKey key, WeatherAPIGeoLocation location) {
+        this.key = key;
+        this.location = location;
+    }
+    
+    /**
+     * This method tries to find the JSON for given latitude and longitude
+     * in the database. If its not found in DB, it makes an API call and 
+     * stores the response in the DB for next use. Remember : Each entry in DB
+     * is valid for 1 hour.
+     * @return Returns JSON either fetched from API call or from DB. 
+     */
+    @Override
+    public String execute() {
+        APIResponsesDAO apiResponseDAO = new APIResponsesDAO();
+        String json = apiResponseDAO.getAPIResponse(
+                APIResponsesDAO.APIXU, location);
+        if(json == null) {
+            json = getJSON();
+            APIResponseBean bean = new APIResponseBean();
+            bean.setLatitude(location.getLat());
+            bean.setLongitude(location.getLongit());
+            bean.setApi(APIResponsesDAO.APIXU);
+            bean.setJson(json);
+            bean.setRequestTime(new Timestamp(Calendar.getInstance().getTimeInMillis()));
+            apiResponseDAO.addApiResponse(bean);
+        }
+        
+        return json;
+    }
+    
+    private String getJSON() {
         IRepository repository = new Repository();
         WeatherModel weatherModel = null;
         StringBuilder json = new StringBuilder(0);
@@ -120,9 +157,4 @@ public class ApixuAPICommand implements WeatherAPICommand {
         
         return json.toString();
     }
-
-    public String parseResponse(String JSONResponse) {
-        return null;
-    }
-    
 }
