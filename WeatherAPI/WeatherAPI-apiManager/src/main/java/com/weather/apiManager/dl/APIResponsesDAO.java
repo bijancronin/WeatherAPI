@@ -18,6 +18,7 @@ public class APIResponsesDAO {
     
     public static final String DARK_SKY = "darksky";
     public static final String APIXU = "apixu";
+    public static final String WUNDER = "wunder";
     
     /**
      * A method for adding API response.
@@ -33,14 +34,16 @@ public class APIResponsesDAO {
         try {
             if(connection != null) {
                 statement = connection.prepareStatement("insert into api_responses"
-                        + "(request_id, latitude, longitude, api, json, request_time)"
+                        + "(request_id, latitude, longitude, city, state, api, json, request_time)"
                         + " values(?,?,?,?,?,?)");
                 statement.setString(1, UUID.randomUUID().toString());
                 statement.setDouble(2, bean.getLatitude());
                 statement.setDouble(3, bean.getLongitude());
                 statement.setString(4, bean.getApi());
                 statement.setString(5, bean.getJson());
-                statement.setTimestamp(6, bean.getRequestTime());
+                tatement.setString(6, bean.getApi());
+                statement.setString(7, bean.getJson());
+                statement.setTimestamp(8, bean.getRequestTime());
                 statement.executeUpdate();
                 isAdded = true;
             }

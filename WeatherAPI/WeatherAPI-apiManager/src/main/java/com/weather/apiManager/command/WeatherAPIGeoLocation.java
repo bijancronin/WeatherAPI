@@ -5,6 +5,8 @@ public class WeatherAPIGeoLocation {
 	private double lat;
 	private double longit;
 	private String city;
+    private String city;
+    private String state;
 	private String zipcode;
 	private String ip;
 	public double getLat() {
@@ -37,5 +39,17 @@ public class WeatherAPIGeoLocation {
 	public void setIp(String ip) {
 		this.ip = ip;
 	}
+    public String getState() {
+        return state;
+    }
+    public void setState(String state) {
+        this.state = state;
+    }
+    public String getCity() {
+        return city;
+    }
+    public void setCity(String city) {
+        this.city = city;
+    }
 
 }
