@@ -1,5 +1,10 @@
 package com.weather.apiManager.command;
 
+import com.weather.apiManager.dl.APIResponseBean;
+import com.weather.apiManager.dl.APIResponsesDAO;
+import java.sql.Timestamp;
+import java.util.Calendar;
+
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -16,7 +21,7 @@ public class WunderGroundCommand implements WeatherAPICommand {
     private WeatherAPIGeoLocation location;
     private final String API_END_POINT = "http://api.wunderground.com/api/";
     
-    public public WunderGroundCommand(WeatherAPIKey key, WeatherAPIGeoLocation location) {
+    public WunderGroundCommand(WeatherAPIKey key, WeatherAPIGeoLocation location) {
         this.key = key;
         this.location = location;
     }
@@ -37,7 +42,7 @@ public class WunderGroundCommand implements WeatherAPICommand {
             apiResponseDAO.addApiResponse(bean);
         }
         
-        
+       return json; 
     }
     
     private String getJSON() {

@@ -41,7 +41,7 @@ public class APIResponsesDAO {
                 statement.setDouble(3, bean.getLongitude());
                 statement.setString(4, bean.getApi());
                 statement.setString(5, bean.getJson());
-                tatement.setString(6, bean.getApi());
+                statement.setString(6, bean.getApi());
                 statement.setString(7, bean.getJson());
                 statement.setTimestamp(8, bean.getRequestTime());
                 statement.executeUpdate();
