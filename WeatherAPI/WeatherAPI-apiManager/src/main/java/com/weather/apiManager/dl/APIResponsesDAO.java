@@ -19,6 +19,7 @@ public class APIResponsesDAO {
     public static final String DARK_SKY = "darksky";
     public static final String APIXU = "apixu";
     public static final String WUNDER = "wunder";
+    public static final String FORECA = "foreca";
     
     /**
      * A method for adding API response.
