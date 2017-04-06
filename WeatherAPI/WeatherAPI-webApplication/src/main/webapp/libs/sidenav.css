@@ -9,7 +9,7 @@
     background-color: rgb(80,210,194);
     overflow-x: hidden; /* Disable horizontal scroll */
     padding-top: 60px; /* Place content 60px from the top */
-    transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+    transition: 0.3s; /* 0.5 second transition effect to slide in the sidenav */
     box-shadow: 5px 3px 4px rgba(0, 0, 0, 0.2);
 
 }

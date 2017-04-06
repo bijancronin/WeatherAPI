@@ -48,6 +48,19 @@ h2 {
 	line-height: 6px;
 }
 
+h3 {
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	font-size: 20px;
+	letter-spacing: 1px;
+	font-weight: 200;
+	color: grey;
+	vertical-align: text-top;
+	display: inline-block;
+	font-style: normal;
+	font-variant: normal;
+	margin-right: 6.5em
+}
+
 form {
 
 	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -109,6 +122,10 @@ label {
 }
 
 input[type="text"] {
+    width: 290px;
+}
+
+input[type="password"] {
     width: 290px;
 }
 
