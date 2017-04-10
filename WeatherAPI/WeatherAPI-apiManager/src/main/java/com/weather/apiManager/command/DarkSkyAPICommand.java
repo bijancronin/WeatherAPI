@@ -47,6 +47,8 @@ public class DarkSkyAPICommand implements WeatherAPICommand{
             APIResponseBean bean = new APIResponseBean();
             bean.setLatitude(location.getLat());
             bean.setLongitude(location.getLongit());
+            bean.setCity("");
+            bean.setState("");
             bean.setApi(APIResponsesDAO.DARK_SKY);
             bean.setJson(json);
             bean.setRequestTime(new Timestamp(Calendar.getInstance().getTimeInMillis()));
@@ -128,7 +130,7 @@ public class DarkSkyAPICommand implements WeatherAPICommand{
                 json.append("\"title\" : \"").append(alert.getTitle()).append("\",");
                 json.append("\"time\" : \"").append(alert.getTime()).append("\",");
                 json.append("\"expires\" : \"").append(alert.getExpires()).append("\",");
-                if(i == alerts.size()-1) {
+                if(i == alertsSize-1) {
                     json.append("}");
                 } else {
                     json.append("},");

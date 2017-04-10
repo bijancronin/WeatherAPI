@@ -41,6 +41,41 @@ public class UserProfile {
 
         return success;
     }
+    
+    public UserProfileBean getUserDetailsByUsername(String username) {
+        UserProfileBean userProfileBean = null;
+        ResultSet result;
+
+        Connection connection = GlobalResources.getConnection();
+        PreparedStatement statement = null;
+
+        try {
+            if (connection != null) {
+                statement = connection.prepareStatement("select * from users "
+                        + "where username = ?");
+                statement.setString(1, username);
+                result = statement.executeQuery();
+
+                if (result.next()) {
+                    userProfileBean = new UserProfileBean();
+                    userProfileBean.setName(result.getString("name"));
+                    userProfileBean.setUsername(result.getString("username"));
+                    userProfileBean.setPassword(result.getString("password"));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (statement != null) statement.close();
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return userProfileBean;
+    }
 
     public boolean updateUser(String name, String username, String password) {
         boolean success = false;
@@ -106,8 +141,8 @@ public class UserProfile {
         return exists;
     }
 
-    public boolean authenticateUser(String username, String password) {
-        boolean matches = false;
+    public UserProfileBean authenticateUser(String username, String password) {
+        UserProfileBean userProfileBean = null;
         ResultSet result;
 
         Connection connection = GlobalResources.getConnection();
@@ -115,7 +150,7 @@ public class UserProfile {
 
         try {
             if (connection != null) {
-                statement = connection.prepareStatement("select password from users "
+                statement = connection.prepareStatement("select * from users "
                         + "where username = ?");
                 statement.setString(1, username);
                 result = statement.executeQuery();
@@ -123,7 +158,10 @@ public class UserProfile {
                 if (result.next()) {
                     String pw = result.getString("password");
                     if (pw.equals(password)) {
-                        matches = true;
+                        userProfileBean = new UserProfileBean();
+                        userProfileBean.setName(result.getString("name"));
+                        userProfileBean.setUsername(result.getString("username"));
+                        userProfileBean.setPassword(result.getString("password"));
                     }
                 }
             }
@@ -138,7 +176,7 @@ public class UserProfile {
             }
         }
 
-        return matches;
+        return userProfileBean;
     }
 
     public boolean deleteUser(String username) {

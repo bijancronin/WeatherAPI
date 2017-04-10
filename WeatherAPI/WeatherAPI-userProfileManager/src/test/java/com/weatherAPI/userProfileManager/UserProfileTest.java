@@ -46,8 +46,8 @@ public class UserProfileTest {
         String username = "TestUser@testerz.com";
         String password = "ITestStuff";
 
-        boolean exist = profile.authenticateUser(username, password);
-
+        boolean exist = (profile.authenticateUser(username, password) != null);
+        
         assertTrue(exist);
     }
 

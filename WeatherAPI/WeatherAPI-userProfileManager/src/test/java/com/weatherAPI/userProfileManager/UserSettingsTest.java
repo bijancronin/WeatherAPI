@@ -90,16 +90,6 @@ public class UserSettingsTest {
     }
 
     @Test
-    public void deleteDefaultLocationTest() {
-        String username = "TestUser@testerz.com";
-        String location = "Burlington,MA";
-
-        boolean deleted = settings.deleteDefaultLocation(username, location);
-
-        assertTrue(deleted);
-    }
-
-    @Test
     public void deleteFavoriteLocationTest() {
         String username = "TestUser@testerz.com";
         String location = "Boston,MA";
