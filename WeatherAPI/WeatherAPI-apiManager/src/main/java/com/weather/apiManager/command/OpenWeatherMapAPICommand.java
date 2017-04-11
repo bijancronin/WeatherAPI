@@ -60,14 +60,14 @@ public class OpenWeatherMapAPICommand implements WeatherAPICommand {
     				return null;*/
     				
     	APIResponsesDAO apiResponseDAO = new APIResponsesDAO();
-        String json = apiResponseDAO.getAPIResponse(APIResponsesDAO.OPENWEATHERMAP, location);
+        String json = apiResponseDAO.getAPIResponse(APIResponsesDAO.OPEN_WEATHER_MAP, location);
         
         if(json == null) {
             json = getJSON();
             APIResponseBean bean = new APIResponseBean();
             bean.setLatitude(location.getLat());
             bean.setLongitude(location.getLongit());
-            bean.setApi(APIResponsesDAO.OPENWEATHERMAP);
+            bean.setApi(APIResponsesDAO.OPEN_WEATHER_MAP);
             bean.setJson(json);
             bean.setRequestTime(new Timestamp(Calendar.getInstance().getTimeInMillis()));
             apiResponseDAO.addApiResponse(bean);

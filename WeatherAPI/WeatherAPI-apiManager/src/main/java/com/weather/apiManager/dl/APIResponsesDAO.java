@@ -22,6 +22,9 @@ public class APIResponsesDAO {
     public static final String FORECA = "foreca";
     public static final String OPEN_WEATHER_MAP = "openweathermap";
     public static final String YAHOO = "yahoo";
+    public static final String ACCUWEATHER = "accuweather";
+    public static final String WEATHERBIT = "weatherbit";
+    
     
     /**
      * A method for adding API response.
@@ -37,16 +40,17 @@ public class APIResponsesDAO {
         try {
             if(connection != null) {
                 statement = connection.prepareStatement("insert into api_responses"
-                        + "(request_id, latitude, longitude, city, state, api, json, request_time)"
-                        + " values(?,?,?,?,?,?,?,?)");
+                        + "(request_id, latitude, longitude, city, state, country, api, json, request_time)"
+                        + " values(?,?,?,?,?,?,?,?,?)");
                 statement.setString(1, UUID.randomUUID().toString());
                 statement.setDouble(2, bean.getLatitude());
                 statement.setDouble(3, bean.getLongitude());
                 statement.setString(4, bean.getCity());
                 statement.setString(5, bean.getState());
-                statement.setString(6, bean.getApi());
-                statement.setString(7, bean.getJson());
-                statement.setTimestamp(8, bean.getRequestTime());
+                statement.setString(6, bean.getCountry());
+                statement.setString(7, bean.getApi());
+                statement.setString(8, bean.getJson());
+                statement.setTimestamp(9, bean.getRequestTime());
                 statement.executeUpdate();
                 isAdded = true;
             }

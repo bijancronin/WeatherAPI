@@ -7,6 +7,7 @@ public class WeatherAPIGeoLocation {
     private double longit;
     private String city;
     private String state;
+    private String country;
     private String zipcode;
     private String ip;
 
@@ -64,5 +65,13 @@ public class WeatherAPIGeoLocation {
 
     public void setState(String state) {
         this.state = state;
+    }
+    
+    public String getCountry() {
+        return country;
+    }
+    
+    public void setCountry(String country) {
+        this.country = country;
     }
 }

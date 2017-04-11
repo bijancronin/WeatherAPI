@@ -9,6 +9,7 @@ public class APIResponseBean {
     private double longitude;
     private String city;
     private String state;
+    private String country;
     private String api;
     private String json;
     private Timestamp requestTime;
@@ -76,4 +77,13 @@ public class APIResponseBean {
     public String getState() {
         return state;
     }
+    
+    public void setCountry(String country) {
+        this.country = country;
+    }
+    
+    public String getCountry() {
+        return country;
+    }
+
 }
