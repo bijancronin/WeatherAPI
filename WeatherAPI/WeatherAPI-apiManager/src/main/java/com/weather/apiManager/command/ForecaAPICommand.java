@@ -70,6 +70,9 @@ public class ForecaAPICommand implements WeatherAPICommand {
             APIResponseBean bean = new APIResponseBean();
             bean.setLatitude(location.getLat());
             bean.setLongitude(location.getLongit());
+            bean.setCity(location.getCity());
+            bean.setState(location.getState());
+            bean.setCountry(location.getCountry());
             bean.setApi(APIResponsesDAO.FORECA);
             bean.setJson(json);
             bean.setRequestTime(new Timestamp(Calendar.getInstance().getTimeInMillis()));

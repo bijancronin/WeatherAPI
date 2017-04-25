@@ -44,15 +44,20 @@ public class DarkSkyAPICommand implements WeatherAPICommand{
                 APIResponsesDAO.DARK_SKY, location);
         if(json == null) {
             json = getJSON();
-            APIResponseBean bean = new APIResponseBean();
-            bean.setLatitude(location.getLat());
-            bean.setLongitude(location.getLongit());
-            bean.setCity("");
-            bean.setState("");
-            bean.setApi(APIResponsesDAO.DARK_SKY);
-            bean.setJson(json);
-            bean.setRequestTime(new Timestamp(Calendar.getInstance().getTimeInMillis()));
-            apiResponseDAO.addApiResponse(bean);
+            if(!json.isEmpty()) {
+                APIResponseBean bean = new APIResponseBean();
+                bean.setLatitude(location.getLat());
+                bean.setLongitude(location.getLongit());
+                bean.setCity(location.getCity());
+                bean.setState(location.getState());
+                bean.setCountry(location.getCountry());
+                bean.setApi(APIResponsesDAO.DARK_SKY);
+                bean.setJson(json);
+                bean.setRequestTime(new Timestamp(Calendar.getInstance().getTimeInMillis()));
+                apiResponseDAO.addApiResponse(bean);
+            } else {
+                json = null;
+            }
         }
         
         return json;
@@ -140,6 +145,10 @@ public class DarkSkyAPICommand implements WeatherAPICommand{
             json.append("}");
         } catch (ForecastException ex) {
             ex.printStackTrace();
+            json = new StringBuilder(0);
+        } catch(Exception e) {
+            e.printStackTrace();
+            json = new StringBuilder(0);
         }
 
         return json.toString();

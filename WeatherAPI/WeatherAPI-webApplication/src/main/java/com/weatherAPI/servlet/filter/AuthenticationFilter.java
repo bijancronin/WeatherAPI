@@ -56,7 +56,13 @@ public class AuthenticationFilter implements Filter {
             }
         } else if(requestURIParts.length > 2 && requestURIParts[2].equals("libs")) {
             chain.doFilter(request, response);
-        }else {
+        } else if(requestURIParts.length > 2 && requestURIParts[2].equals("rest")) {
+            if(session.getAttribute("username") == null) {
+                servletResponse.sendRedirect(servletRequest.getContextPath() 
+                        + "/index.jsp");
+                return;
+            }
+        } else {
             if(session.getAttribute("username") != null) {
                 servletResponse.sendRedirect(servletRequest.getContextPath() 
                         + "/user/UserHomepage.jsp");

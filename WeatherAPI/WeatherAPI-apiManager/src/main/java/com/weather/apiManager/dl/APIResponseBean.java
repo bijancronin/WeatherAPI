@@ -1,6 +1,5 @@
 package com.weather.apiManager.dl;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 
 public class APIResponseBean {
@@ -85,5 +84,4 @@ public class APIResponseBean {
     public String getCountry() {
         return country;
     }
-
 }

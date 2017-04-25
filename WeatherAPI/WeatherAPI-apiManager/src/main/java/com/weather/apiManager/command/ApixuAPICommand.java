@@ -40,13 +40,20 @@ public class ApixuAPICommand implements WeatherAPICommand {
                 APIResponsesDAO.APIXU, location);
         if(json == null) {
             json = getJSON();
-            APIResponseBean bean = new APIResponseBean();
-            bean.setLatitude(location.getLat());
-            bean.setLongitude(location.getLongit());
-            bean.setApi(APIResponsesDAO.APIXU);
-            bean.setJson(json);
-            bean.setRequestTime(new Timestamp(Calendar.getInstance().getTimeInMillis()));
-            apiResponseDAO.addApiResponse(bean);
+            if(!json.isEmpty()) {
+                APIResponseBean bean = new APIResponseBean();
+                bean.setLatitude(location.getLat());
+                bean.setLongitude(location.getLongit());
+                bean.setCity(location.getCity());
+                bean.setState(location.getState());
+                bean.setCountry(location.getCountry());
+                bean.setApi(APIResponsesDAO.APIXU);
+                bean.setJson(json);
+                bean.setRequestTime(new Timestamp(Calendar.getInstance().getTimeInMillis()));
+                apiResponseDAO.addApiResponse(bean);
+            } else {
+                json = null;
+            }
         }
         
         return json;

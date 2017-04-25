@@ -1,5 +1,6 @@
 package com.weatherApi.rest;
 
+import com.weather.apiManager.command.AccuWeatherCommand;
 import com.weather.apiManager.command.ApixuAPICommand;
 
 import javax.ws.rs.GET;
@@ -11,6 +12,8 @@ import com.weather.apiManager.command.OpenWeatherMapAPICommand;
 import com.weather.apiManager.command.WeatherAPICommand;
 import com.weather.apiManager.command.WeatherAPIGeoLocation;
 import com.weather.apiManager.command.WeatherAPIKey;
+import com.weather.apiManager.command.WeatherBitCommand;
+import com.weather.apiManager.command.WunderGroundCommand;
 import com.weather.apiManager.command.YahooAPICommand;
 
 @Path("/api")
@@ -22,7 +25,10 @@ public class RESTService {
         WeatherAPIKey key = new WeatherAPIKey("e80440fb1812b94394324d93d488f300");
         WeatherAPIGeoLocation location = new WeatherAPIGeoLocation();
         location.setLat(37.8267);
-                location.setLongit(-122.4233);
+        location.setLongit(-122.4233);
+        location.setCity("");
+        location.setState("");
+        location.setCountry("");
         WeatherAPICommand darkSky = new DarkSkyAPICommand(key, location);
         String response = darkSky.execute();
         return response;
@@ -34,7 +40,10 @@ public class RESTService {
         WeatherAPIKey key = new WeatherAPIKey("d882133b26e248fe91f192249171503");
         WeatherAPIGeoLocation location = new WeatherAPIGeoLocation();
         location.setLat(37.8267);
-		location.setLongit(-122.4233);
+        location.setLongit(-122.4233);
+        location.setCity("");
+        location.setState("");
+        location.setCountry("");
         ApixuAPICommand command = new ApixuAPICommand(key, location);
         String response = command.execute();
         return response;
@@ -46,7 +55,10 @@ public class RESTService {
         WeatherAPIKey key = new WeatherAPIKey("995ae1c7e4573cf3578dd394ac69c532");
         WeatherAPIGeoLocation location = new WeatherAPIGeoLocation();
         location.setLat(37.8267);
-                location.setLongit(-122.4233);
+        location.setLongit(-122.4233);
+        location.setCity("");
+        location.setState("");
+        location.setCountry("");
         WeatherAPICommand openWeather = 
                 new OpenWeatherMapAPICommand(key, location);
         String response = openWeather.execute();
@@ -59,7 +71,10 @@ public class RESTService {
         WeatherAPIKey key = new WeatherAPIKey("KP1vQAGGx2Qx8adVWO83dqkvoqg");
         WeatherAPIGeoLocation location = new WeatherAPIGeoLocation();
         location.setLat(37.8267);
-                location.setLongit(-122.4233);
+        location.setLongit(-122.4233);
+        location.setCity("");
+        location.setState("");
+        location.setCountry("");
         WeatherAPICommand forecaWeather = 
                 new ForecaAPICommand(key, location);
         String response = forecaWeather.execute();
@@ -67,12 +82,64 @@ public class RESTService {
     }
 
     @GET
+    @Path("/accuweatherapi")
+    public String accuWeatherAPIData() {
+        WeatherAPIKey key = new WeatherAPIKey("cO1CZkYq2A0xyjj6DF4WNzq9tGxmCPb0");
+        WeatherAPIGeoLocation location = new WeatherAPIGeoLocation();
+        location.setLat(37.8267);
+        location.setLongit(-122.4233);
+        location.setCity("Boston");
+        location.setState("MA");
+        location.setCountry("US");
+        location.setZipcode("02125");
+        WeatherAPICommand accuWeather = 
+                new AccuWeatherCommand(key, location);
+        String response = accuWeather.execute();
+        return response;
+    }
+    
+    @GET
+    @Path("/weatherbitapi")
+    public String weatherBitAPIData() {
+        WeatherAPIKey key = new WeatherAPIKey("KP1vQAGGx2Qx8adVWO83dqkvoqg");
+        WeatherAPIGeoLocation location = new WeatherAPIGeoLocation();
+        location.setLat(37.8267);
+        location.setLongit(-122.4233);
+        location.setCity("");
+        location.setState("");
+        location.setCountry("");
+        WeatherAPICommand weatherBit = 
+                new WeatherBitCommand(key, location);
+        String response = weatherBit.execute();
+        return response;
+    }
+    
+    @GET
+    @Path("/wundergroundapi")
+    public String wunderGroundAPIData() {
+        WeatherAPIKey key = new WeatherAPIKey("c03547405e706ce3");
+        WeatherAPIGeoLocation location = new WeatherAPIGeoLocation();
+        location.setLat(37.8267);
+        location.setLongit(-122.4233);
+        location.setCity("Boston");
+        location.setState("MA");
+        location.setCountry("US");
+        WeatherAPICommand wunderGround = 
+                new WunderGroundCommand(key, location);
+        String response = wunderGround.execute();
+        return response;
+    }
+    
+    @GET
     @Path("/yahooapi")
     public String yahooAPIData() {
         WeatherAPIKey key = new WeatherAPIKey("dj0yJmk9UnZTNVNFUUJDeEFGJmQ9WVdrOWExUjJkSHBQTldVbWNHbzlNQS0tJnM9Y29uc3VtZXJzZWNyZXQmeD0zMQ--");
         WeatherAPIGeoLocation location = new WeatherAPIGeoLocation();
         location.setLat(37.8267);
-                location.setLongit(-122.4233);
+        location.setLongit(-122.4233);
+        location.setCity("");
+        location.setState("");
+        location.setCountry("");
         WeatherAPICommand yahooWeather = 
                 new YahooAPICommand(key, location);
         String response = yahooWeather.execute();
