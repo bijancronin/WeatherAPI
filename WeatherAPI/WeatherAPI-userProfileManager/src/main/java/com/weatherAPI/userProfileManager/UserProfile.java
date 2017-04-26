@@ -1,9 +1,6 @@
 package com.weatherAPI.userProfileManager;
 
 import com.weatherAPI.userProfileManager.util.GlobalResources;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 
 import java.sql.*;
 

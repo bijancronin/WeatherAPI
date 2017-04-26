@@ -1,111 +1,125 @@
 package com.weatherAPI.userProfileManager;
 
+import com.weather.apiManager.command.WeatherAPIGeoLocation;
+import java.util.ArrayList;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Test;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import org.junit.Test;
 
 /**
  * Created by HaeYoung on 4/2/2017.
  */
 public class UserSettingsTest {
-    UserSettings settings;
-    UserProfile profile;
+    private UserSettings settings;
+    private UserProfile profile;
+    private String username;
+    private WeatherAPIGeoLocation location;
 
     @Before
     public void setup() {
         settings = new UserSettings();
         assertNotNull(settings);
+        
+        location = new WeatherAPIGeoLocation();
+        location.setLat(37.8267);
+        location.setLongit(-122.4233);
+        location.setCity("Boston");
+        location.setState("MA");
+        location.setCountry("USA");
+        location.setZipcode("02125");
 
-        String username = "TestUser@testerz.com";
+        username = "TestUser@testerz.com";
         String name = "Tester McTestTest";
         String password = "ITestStuff";
         profile = new UserProfile();
         profile.createUser(username, name, password);
     }
-
+    
     @Test
-    public void addKeyTest() {
-        String username = "TestUser@testerz.com";
-        String api = "yahoo";
-        String key = "thisisalongstring1";
-
-        boolean added = settings.addKey(username, api, key);
-
-        assertTrue(added);
+    public void testAddSubscription() {
+        boolean actual = settings.addSubscription(username, "darksky");
+        assertTrue(actual);
+        
+        settings.deleteSubscriptions(username);
     }
-
+    
     @Test
-    public void addDefaultLocationTest() {
-        String username = "TestUser@testerz.com";
-        String location = "Boston,MA";
-
-        boolean added = settings.addDefaultLocation(username, location);
-
-        assertTrue(added);
+    public void testAddSubscriptionWithPrivateKey() {
+        boolean actual = settings.addSubscription(username
+                , "darksky", "private_key");
+        assertTrue(actual);
     }
-
+    
     @Test
-    public void addFavoriteLocationTest() {
-        String username = "TestUser@testerz.com";
-        String location = "Boston,MA";
-
-        boolean added = settings.addFavoriteLocation(username, location);
-
-        assertTrue(added);
+    public void testAddDefaultLocationAndDeleteDefaultLocation() {
+        boolean actual1 = settings.addDefaultLocation(username, location);
+        assertTrue(actual1);
+        
+        boolean actual2 = settings.deleteDefaultLocation(username);
+        assertTrue(actual2);
     }
-
+    
     @Test
-    public void updateKeyTest() {
-        String username = "TestUser@testerz.com";
-        String api = "yahoo";
-        String key = "anotherlongstring2";
-
-        boolean updated = settings.updateKey(username, api, key);
-
-        assertTrue(updated);
+    public void testAddFavoriteLocationAndDeleteFavoriteLocation() {
+        boolean actual1 = settings.addFavoriteLocation(username, location);
+        assertTrue(actual1);
+        
+        boolean actual2 = settings.deleteDefaultLocation(username);
+        assertTrue(actual2);
     }
-
+    
     @Test
-    public void updateDefaultLocationTest() {
-        String username = "TestUser@testerz.com";
-        String location = "Burlington,MA";
-
-        boolean updated = settings.updateDefaultLocation(username, location);
-
-        assertTrue(updated);
+    public void testGetUserAPISubscriptions() {
+        settings.addSubscription(username, "darksky");
+        ArrayList<String> actual =  settings.getUserAPISubscriptions(username);
+        int expectedSize = 1;
+        int actualSize = actual.size();
+        assertThat(actualSize, is(expectedSize));
+        settings.deleteSubscriptions(username);
     }
-
+    
     @Test
-    public void deleteKeyTest() {
-        String username = "TestUser@testerz.com";
-        String api = "yahoo";
-        String key = "anotherlongstring2";
-
-        boolean deleted = settings.deleteKey(username, api, key);
-
-        assertTrue(deleted);
+    public void testGetUserFavoriteLocation() {
+        deleteFavoriteLocations(settings.getUserFavoriteLocation(username));
+        settings.addFavoriteLocation(username, location);
+        
+        ArrayList<WeatherAPIGeoLocation> locations = 
+                settings.getUserFavoriteLocation(username);
+        int actual = locations.size();
+        int expected = 1;
+        assertThat(actual, is(expected));
+    
+        deleteFavoriteLocations(locations);
     }
-
+    
     @Test
-    public void deleteFavoriteLocationTest() {
-        String username = "TestUser@testerz.com";
-        String location = "Boston,MA";
-
-        boolean deleted = settings.deleteFavoriteLocation(username, location);
-
-        assertTrue(deleted);
+    public void testGetUserDefaultLocation() {
+        settings.addDefaultLocation(username, location);
+        WeatherAPIGeoLocation actual = settings.getUserDefaultLocation(username);
+        assertThat(actual, is(notNullValue()));
+        settings.deleteDefaultLocation(username);
     }
-
-
+    
+    /**
+     * Also tests delete user profile and delete subscription.
+     */
     @After
     public void teardown() {
         String username1 = "TestUser@testerz.com";
-
+        boolean subscriptionDeleted = settings.deleteSubscriptions(username1);
         boolean deleted = profile.deleteUser(username1);
+        assertTrue(subscriptionDeleted);
         assertTrue(deleted);
     }
-
+    
+    private void deleteFavoriteLocations(ArrayList<WeatherAPIGeoLocation> locations) {
+        for(WeatherAPIGeoLocation location : locations) {
+            settings.deleteFavoriteLocation(location.getLocationId());
+        }
+    }
 }
+  
