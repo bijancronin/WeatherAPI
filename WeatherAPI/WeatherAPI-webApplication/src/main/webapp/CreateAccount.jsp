@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
+<head><meta id="meta" name="viewport" content="width=device-width; initial-scale=1.0" />
+</head>
     <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/layout.css">
     <script src = "https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
     <script src="https://raw2.github.com/medialize/URI.js/master/src/URI.js"></script>
@@ -22,7 +24,7 @@
     <body>
         <div class = "centeredOuter"> <div class = "centeredInner">
                 <div style = "text-align: center; margin-bottom: 6em;">
-                    <h1>MyCast</h1>
+                    <h1>myCast</h1>
                     <h2>Personalized Weather Aggregator</h2>
                     <h2 style="color:red;">
                         <c:if test="${error != null}">
@@ -51,7 +53,7 @@
                         <button>Create</button>
                     </div>
                 </form> 
-                <div style = "text-align: center; margin-top: 3em;">
+                <div style = "text-align: center; margin-top: 1em;">
                     <br>
                     <footer>ALREADY HAVE AN ACCOUNT? <a href = "<%=request.getContextPath()%>/index.jsp">SIGN IN</a></footer>
                 </div>
