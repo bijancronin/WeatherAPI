@@ -1,6 +1,5 @@
 package com.weatherAPI.userProfileManager;
 
-import org.hamcrest.Matchers;
 import org.junit.*;
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
@@ -14,30 +13,32 @@ import static org.junit.Assert.assertTrue;
 public class UserProfileTest {
 
     UserProfile profile;
+    String username;
+    String name;
+    String password;
 
     @Before
     public void setup() {
         profile = new UserProfile();
         assertNotNull(profile);
+
+        username = "TestUser@gmail.com";
+        name = "UserOne";
+        password = "Testing";
     }
 
     @Test
     public void createUserTest() {
-        String username = "TestUser@testerz.com";
-        String name = "Tester McTestTest";
-        String password = "ITestStuff";
-
         boolean created = profile.createUser(username, name, password);
-
         assertTrue(created);
     }
 
     @Test
     public void updateUserTest() {
         createUserTest();
-        String username = "TestUser@testerz.com";
-        String updatedName = "I_SHALL_NOT_TEST!";
-        String password = "IDoNotTestStuff";
+
+        String updatedName = "UserTwo";
+
         boolean updated = profile.updateUser(updatedName, username, password);
 
         assertTrue(updated);
@@ -46,8 +47,6 @@ public class UserProfileTest {
     @Test
     public void authenticateUserTest() {
         createUserTest();
-        String username = "TestUser@testerz.com";
-        String password = "ITestStuff";
 
         boolean exist = (profile.authenticateUser(username, password) != null);
         
@@ -57,7 +56,6 @@ public class UserProfileTest {
     @Test
     public void checkUsernameTest() {
         createUserTest();
-        String username = "TestUser@testerz.com";
 
         boolean exist = profile.checkUsernameExists(username);
 
@@ -84,9 +82,7 @@ public class UserProfileTest {
 
     @After
     public void teardown() {
-        String username1 = "TestUser@testerz.com";
-
-        boolean deleted = profile.deleteUser(username1);
+        boolean deleted = profile.deleteUser(username);
         assertTrue(deleted);
     }
 
