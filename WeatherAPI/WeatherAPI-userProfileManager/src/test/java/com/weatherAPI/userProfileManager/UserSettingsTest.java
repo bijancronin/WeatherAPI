@@ -32,9 +32,9 @@ public class UserSettingsTest {
         location.setCountry("USA");
         location.setZipcode("02125");
 
-        username = "TestUser@testerz.com";
-        String name = "Tester McTestTest";
-        String password = "ITestStuff";
+        username = "TestUser@gmail.com";
+        String name = "UserOne";
+        String password = "Testing";
         profile = new UserProfile();
         profile.createUser(username, name, password);
     }
@@ -109,9 +109,8 @@ public class UserSettingsTest {
      */
     @After
     public void teardown() {
-        String username1 = "TestUser@testerz.com";
-        boolean subscriptionDeleted = settings.deleteSubscriptions(username1);
-        boolean deleted = profile.deleteUser(username1);
+        boolean subscriptionDeleted = settings.deleteSubscriptions(username);
+        boolean deleted = profile.deleteUser(username);
         assertTrue(subscriptionDeleted);
         assertTrue(deleted);
     }

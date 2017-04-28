@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
+<head><meta id="meta" name="viewport" content="width=device-width; initial-scale=1.0" />
+</head>
     <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/layout.css">
     <script src = "https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
     <script src="https://raw2.github.com/medialize/URI.js/master/src/URI.js"></script>
@@ -40,12 +42,13 @@
                     <label for="name">PASSWORD</label>
                     <br/>
                     <input type="Password" name="password" value="">
+                    <br/>
+                    <a href ="" style="text-decoration:none">Forgot Password?</a>
                     <div style = "text-align: center; margin-top: 3em;">
                         <button>Sign In</button>
                     </div>
                 </form>	
-                <a href ="" style="text-decoration:none">Forgot Password?</a>
-                <div style = "text-align: center; margin-top: 3em;">
+                <div style = "text-align: center; margin-top: 1em;">
                     <br>
                     <footer>DON'T HAVE AN ACCOUNT? <a href = "<%=request.getContextPath()%>/CreateAccount.jsp">SIGN UP</a></footer>
                 </div>
