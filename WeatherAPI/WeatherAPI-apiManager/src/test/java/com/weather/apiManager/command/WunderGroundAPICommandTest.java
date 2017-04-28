@@ -7,7 +7,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
 
-public class ForecaAPICommandTest {
+public class WunderGroundAPICommandTest {
 	
     private WeatherAPIKey key1, key2;
     private WeatherAPIGeoLocation location1, location2;

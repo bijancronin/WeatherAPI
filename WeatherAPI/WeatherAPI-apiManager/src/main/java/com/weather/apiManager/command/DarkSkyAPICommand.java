@@ -136,7 +136,7 @@ public class DarkSkyAPICommand implements WeatherAPICommand{
                 json.append("{");
                 json.append("\"title\" : \"").append(alert.getTitle()).append("\",");
                 json.append("\"time\" : \"").append(alert.getTime()).append("\",");
-                json.append("\"expires\" : \"").append(alert.getExpires()).append("\",");
+                json.append("\"expires\" : \"").append(alert.getExpires()).append("\"");
                 if(i == alertsSize-1) {
                     json.append("}");
                 } else {
