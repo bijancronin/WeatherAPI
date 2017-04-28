@@ -64,6 +64,10 @@
         <servlet-name>AddDefaultLocationServlet</servlet-name>
         <servlet-class>com.weatherAPI.servlet.AddDefaultLocationServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>FetchApiSubscriptionServlet</servlet-name>
+        <servlet-class>com.weatherAPI.servlet.FetchApiSubscriptionServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>jersey-serlvet</servlet-name>
         <url-pattern>/rest/*</url-pattern>
@@ -111,5 +115,9 @@
     <servlet-mapping>
         <servlet-name>AddDefaultLocationServlet</servlet-name>
         <url-pattern>/user/AddDefaultLocationServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FetchApiSubscriptionServlet</servlet-name>
+        <url-pattern>/user/FetchApiSubscriptionServlet</url-pattern>
     </servlet-mapping>
 </web-app>

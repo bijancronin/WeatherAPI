@@ -18,14 +18,20 @@ password varchar(500) not null,
 name varchar(500) not null,
 default_city varchar(500),
 default_latitude double,
-default_longitude double);
+default_longitude double,
+default_state varchar(500),
+default_country varchar(500),
+default_zipcode varchar(500));
 
 create table favorite_locations(
 location_id varchar(100) primary key,
 username varchar(500) not null,
 latitude double not null,
 longitude double not null,
-city varchar(500) not null);
+city varchar(500) not null,
+state varchar(500) not null,
+country varchar(500) not null,
+zipcode varchar(500) not null);
 
 create table api_subscription(
 subscription_id varchar(100) primary key,

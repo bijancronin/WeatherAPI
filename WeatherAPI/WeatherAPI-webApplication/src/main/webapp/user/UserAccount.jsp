@@ -34,7 +34,7 @@
 
         <div id="mySidenav" class="sidenav">
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-            <a href='<%=request.getContextPath()%>/user/UserHomepage.jsp'>Home</a>
+            <a href='<%=request.getContextPath()%>/user/FetchApiSubscriptionServlet'>Home</a>
             <a href="<%=request.getContextPath()%>/user/UserAccount.jsp">Account</a>
             <a href="<%=request.getContextPath()%>/user/UserSettings.jsp">Settings</a>
             <a href="<%=request.getContextPath()%>/user/LogoutServlet">Logout</a>

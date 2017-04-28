@@ -56,6 +56,7 @@ public class GeoLocationManager {
                     location.setLongit(result.getDouble("longitude"));
                     location.setState(result.getString("region"));
                     location.setZipcode(result.getString("postal_code"));
+                    location.setCountry(result.getString("country"));
                     locations.add(location);
                 }
             }

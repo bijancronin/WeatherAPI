@@ -67,6 +67,8 @@ public class DarkSkyAPICommand implements WeatherAPICommand{
         ForecastRequest request = new ForecastRequestBuilder()
             .key(new APIKey(key.getSecretKey()))
             .exclude(ForecastRequestBuilder.Block.minutely)
+            .language(ForecastRequestBuilder.Language.en)
+            .units(ForecastRequestBuilder.Units.us)
             .extendHourly()
             .location(new GeoCoordinates(new Longitude(location.getLongit()), new Latitude(location.getLat()))).build();
 

@@ -42,6 +42,16 @@
 		<artifactId>WeatherAPI-apiManager</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</dependency>
+        <dependency>
+            <groupId>com.weatherapi</groupId>
+            <artifactId>WeatherAPI-userProfileManager</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.8.0</version>
+        </dependency>
 	
     <dependency>
       <groupId>junit</groupId>

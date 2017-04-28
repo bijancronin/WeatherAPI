@@ -84,11 +84,15 @@ public class UserSettings {
             if (connection != null) {
                 statement = connection.prepareStatement("UPDATE users "
                         + "SET default_latitude = ?, default_longitude=?, default_city=? "
+                        + ", default_state=?, default_country=?, default_zipcode=?"
                         + "WHERE username = ?");
                 statement.setDouble(1, location.getLat());
                 statement.setDouble(2, location.getLongit());
                 statement.setString(3, location.getCity());
-                statement.setString(4, username);
+                statement.setString(4, location.getState());
+                statement.setString(5, location.getCountry());
+                statement.setString(6, location.getZipcode());
+                statement.setString(7, username);
                 statement.execute();
 
                 success = true;
@@ -115,13 +119,16 @@ public class UserSettings {
             try {
                 if (connection != null) {
                     statement = connection.prepareStatement("insert into favorite_locations "
-                            + "(location_id, username, latitude, longitude, city) "
-                            + "VALUES (?,?,?,?,?)");
+                            + "(location_id, username, latitude, longitude, city, state, country, zipcode) "
+                            + "VALUES (?,?,?,?,?,?,?,?)");
                     statement.setString(1, UUID.randomUUID().toString());
                     statement.setString(2, username);
                     statement.setDouble(3, location.getLat());
                     statement.setDouble(4, location.getLongit());
                     statement.setString(5, location.getCity());
+                    statement.setString(6, location.getState());
+                    statement.setString(7, location.getCountry());
+                    statement.setString(8, location.getZipcode());
                     statement.execute();
 
                     success = true;
@@ -179,11 +186,15 @@ public class UserSettings {
             if (connection != null) {
                 statement = connection.prepareStatement("UPDATE users "
                         + "SET default_latitude = ?, default_longitude=?, default_city=? "
+                        + ", default_state=?, default_country=?, default_zipcode=? "
                         + "WHERE username = ? ");
                 statement.setNull(1, java.sql.Types.DOUBLE);
                 statement.setNull(2, java.sql.Types.DOUBLE);
                 statement.setNull(3, java.sql.Types.VARCHAR);
-                statement.setString(4, username);
+                statement.setNull(4, java.sql.Types.VARCHAR);
+                statement.setNull(5, java.sql.Types.VARCHAR);
+                statement.setNull(6, java.sql.Types.VARCHAR);
+                statement.setString(7, username);
                 statement.execute();
 
                 deleted = true;
@@ -283,6 +294,9 @@ public class UserSettings {
                     location.setLat(result.getDouble("latitude"));
                     location.setLongit(result.getDouble("longitude"));
                     location.setCity(result.getString("city"));
+                    location.setState(result.getString("state"));
+                    location.setCountry(result.getString("country"));
+                    location.setZipcode(result.getString("zipcode"));
                     locations.add(location);
                 }
             }
@@ -318,11 +332,18 @@ public class UserSettings {
                     Double latitude = result.getDouble("default_latitude");
                     Double longitude = result.getDouble("default_longitude");
                     String city = result.getString("default_city");
-                    if(latitude != 0 && longitude != 0 && city != null) {
+                    String state = result.getString("default_state");
+                    String country = result.getString("default_country");
+                    String zipcode = result.getString("default_zipcode");
+                    if(latitude != 0 && longitude != 0 && city != null
+                            && state != null && country != null && zipcode != null) {
                         location = new WeatherAPIGeoLocation();
                         location.setLat(latitude);
                         location.setLongit(longitude);
                         location.setCity(city);
+                        location.setState(state);
+                        location.setCountry(country);
+                        location.setZipcode(zipcode);
                     }
                     
                 }

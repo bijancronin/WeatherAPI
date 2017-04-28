@@ -12,7 +12,7 @@
 
         <div id="mySidenav" class="sidenav">
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-            <a href='<%=request.getContextPath()%>/user/UserHomepage.jsp'>Home</a>
+            <a href='<%=request.getContextPath()%>/user/FetchApiSubscriptionServlet'>Home</a>
             <a href="<%=request.getContextPath()%>/user/UserAccount.jsp">Account</a>
             <a href="<%=request.getContextPath()%>/user/UserSettings.jsp">Settings</a>
             <a href="<%=request.getContextPath()%>/user/LogoutServlet">Logout</a>
@@ -24,6 +24,13 @@
         <div class = "centeredOuter"> <div class = "centeredInner">
                 <form action="<%=request.getContextPath()%>/user/UserAPISettingsServlet" method="GET">
                     <!-- Rounded switch -->
+                    <div style="">
+                        <h3>Accu Weather</h3>
+                        <label class="switch">
+                            <input type="checkbox" name="accuweather" value="accuweather" <c:out value='${requestScope["accuweather"]}'/>>
+                            <div class="slider round"></div>
+                        </label>
+                    </div>
                     <div style="">
                         <h3>Apixu</h3>
                         <label class="switch">
@@ -53,16 +60,16 @@
                         </label>
                     </div>
                     <div style="">
-                        <h3>Wunder Ground</h3>
+                        <h3>Weather Bit</h3>
                         <label class="switch">
-                            <input type="checkbox" name="wunder" value="wunder" <c:out value='${requestScope["wunder"]}'/>>
+                            <input type="checkbox" name="weatherbit" value="weatherbit" <c:out value='${requestScope["weatherbit"]}'/>>
                             <div class="slider round"></div>
                         </label>
                     </div>
                     <div style="">
-                        <h3>Yahoo</h3>
+                        <h3>Wunder Ground</h3>
                         <label class="switch">
-                            <input type="checkbox" name="yahoo" value="yahoo" <c:out value='${requestScope["yahoo"]}'/>>
+                            <input type="checkbox" name="wunder" value="wunder" <c:out value='${requestScope["wunder"]}'/>>
                             <div class="slider round"></div>
                         </label>
                     </div>

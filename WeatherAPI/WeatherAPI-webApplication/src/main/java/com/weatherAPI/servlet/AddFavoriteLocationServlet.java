@@ -31,11 +31,12 @@ public class AddFavoriteLocationServlet extends HttpServlet {
             String state = request.getParameter("state");
             String city = request.getParameter("city");
             String zipcode = request.getParameter("zipcode");
+            String country = request.getParameter("country");
             HttpSession session = request.getSession();
             String username = (String) session.getAttribute("username");
 
             if (latitude == null || longitude == null || state == null
-                    || city == null || zipcode == null) {
+                    || city == null || zipcode == null || country == null) {
                 request.setAttribute("error", "Bad request");
                 dispatcher = request.getRequestDispatcher("/user/UserLocationSetting.jsp");
                 dispatcher.forward(request, response);
@@ -48,6 +49,7 @@ public class AddFavoriteLocationServlet extends HttpServlet {
             location.setState(state);
             location.setCity(city);
             location.setZipcode(zipcode);
+            location.setCountry(country);
             UserSettings userSettings = new UserSettings();
             boolean isAdded = userSettings.addFavoriteLocation(username, location);
             if (isAdded) {

@@ -1,8 +1,9 @@
 package com.weatherAPI.servlet;
 
+import com.google.gson.Gson;
 import com.weatherAPI.userProfileManager.UserSettings;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -10,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-public class GetUserAPISubscriptionServlet extends HttpServlet {
+public class FetchApiSubscriptionServlet extends HttpServlet {
 
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -29,15 +30,13 @@ public class GetUserAPISubscriptionServlet extends HttpServlet {
             HttpSession session = request.getSession();
             String username = (String) session.getAttribute("username");
             UserSettings userSettings = new UserSettings();
-            ArrayList<String> apiSubscription = userSettings.getUserAPISubscriptions(username);
-            request.setAttribute("accuweather", (apiSubscription.contains("accuweather")) ? "checked" : "");
-            request.setAttribute("apixu", (apiSubscription.contains("apixu")) ? "checked" : "");
-            request.setAttribute("foreca", (apiSubscription.contains("foreca")) ? "checked" : "");
-            request.setAttribute("openweathermap", (apiSubscription.contains("openweathermap")) ? "checked" : "");
-            request.setAttribute("wunder", (apiSubscription.contains("wunder")) ? "checked" : "");
-            request.setAttribute("weatherbit", (apiSubscription.contains("weatherbit")) ? "checked" : "");
-            request.setAttribute("darksky", (apiSubscription.contains("darksky")) ? "checked" : "");
-            dispatcher = request.getRequestDispatcher("/user/UserAPISetting.jsp");
+            List<String> apiSubscription = 
+                    userSettings.getUserAPISubscriptions(username);
+            Gson gson = new Gson();
+            String jsonApiSubscription = gson.toJson(apiSubscription);
+            request.setAttribute("apiSubscription", jsonApiSubscription);
+            dispatcher = request.getRequestDispatcher
+                    ("/user/UserHomepage.jsp");
             dispatcher.forward(request, response);
         } catch (Exception e) {
             e.printStackTrace();

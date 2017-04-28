@@ -107,7 +107,7 @@ public class AccuWeatherCommand implements WeatherAPICommand {
                 }
             }
             
-            json.append("],");
+            json.append("]},");
             
             //we'll get the json data from the url (using autoip) and stick its head into the inputSteam for reading
             URL url = new URL(forecast);
@@ -148,8 +148,7 @@ public class AccuWeatherCommand implements WeatherAPICommand {
                     json.append("},");
                 }
             }
-            json.append("]");
-            json.append("},");
+            json.append("],");
             
             URL alertsURL = new URL(alerts);
             connection = (HttpURLConnection) alertsURL.openConnection();

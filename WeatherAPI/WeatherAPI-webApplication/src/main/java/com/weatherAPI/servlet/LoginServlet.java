@@ -34,7 +34,7 @@ public class LoginServlet extends HttpServlet {
                 HttpSession session = request.getSession();
                 session.setAttribute("username", username);
                 session.setAttribute("name", userProfileBean.getName());
-                dispatcher = request.getRequestDispatcher("/user/UserHomepage.jsp");
+                dispatcher = request.getRequestDispatcher("/user/FetchApiSubscriptionServlet");
                 dispatcher.forward(request, response);
             } else {
                 request.setAttribute("error", "Invalid username/password.");

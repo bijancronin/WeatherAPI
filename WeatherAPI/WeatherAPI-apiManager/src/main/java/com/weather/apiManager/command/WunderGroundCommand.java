@@ -154,7 +154,7 @@ public class WunderGroundCommand implements WeatherAPICommand {
                 }
             }
             
-            json.append("],");
+            json.append("]},");
             
             //using the state & zip, we construct a new url, download it and stick its head into the inputStream
             URL forecastUrl = new URL(forecast);
@@ -197,7 +197,6 @@ public class WunderGroundCommand implements WeatherAPICommand {
                 }
             }
             json.append("]");
-            json.append("}");
             json.append("}");
             
             

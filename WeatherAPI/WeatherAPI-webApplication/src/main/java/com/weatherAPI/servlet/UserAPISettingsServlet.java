@@ -27,6 +27,8 @@ public class UserAPISettingsServlet extends HttpServlet {
         RequestDispatcher dispatcher = null;
         try {
             ArrayList<String> apiSubscription = new ArrayList<>(0);
+            if(request.getParameter("accuweather") != null) 
+                apiSubscription.add(APIResponsesDAO.ACCUWEATHER);
             if(request.getParameter("apixu") != null) 
                 apiSubscription.add(APIResponsesDAO.APIXU);
             if(request.getParameter("darksky") != null) 
@@ -37,8 +39,8 @@ public class UserAPISettingsServlet extends HttpServlet {
                 apiSubscription.add(APIResponsesDAO.OPEN_WEATHER_MAP);
             if(request.getParameter("wunder") != null) 
                 apiSubscription.add(APIResponsesDAO.WUNDER);
-            if(request.getParameter("yahoo") != null) 
-                apiSubscription.add(APIResponsesDAO.YAHOO);
+            if(request.getParameter("weatherbit") != null) 
+                apiSubscription.add(APIResponsesDAO.WEATHERBIT);
             HttpSession session = request.getSession();
             String username = (String)session.getAttribute("username");
             UserSettings userSettings = new UserSettings();
@@ -46,11 +48,12 @@ public class UserAPISettingsServlet extends HttpServlet {
             for(String api : apiSubscription) {
                 userSettings.addSubscription(username, api);
             }
+            request.setAttribute("accuweather", (request.getParameter("accuweather") == null)?"":"checked");
             request.setAttribute("apixu", (request.getParameter("apixu") == null)?"":"checked");
             request.setAttribute("darksky", (request.getParameter("darksky") == null)?"":"checked");
             request.setAttribute("openweathermap", (request.getParameter("openweathermap") == null)?"":"checked");
             request.setAttribute("wunder", (request.getParameter("wunder") == null)?"":"checked");
-            request.setAttribute("yahoo", (request.getParameter("yahoo") == null)?"":"checked");
+            request.setAttribute("weatherbit", (request.getParameter("weatherbit") == null)?"":"checked");
             request.setAttribute("foreca", (request.getParameter("foreca") == null)?"":"checked");
             dispatcher = request.getRequestDispatcher("/user/UserAPISetting.jsp");
             dispatcher.forward(request, response);

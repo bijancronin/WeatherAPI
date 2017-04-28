@@ -149,7 +149,7 @@ public class ForecaAPICommand implements WeatherAPICommand {
                 }
             }
             
-            json.append("],");
+            json.append("]},");
             
                        
             //we parse the contents to a our json object for processing
@@ -176,10 +176,6 @@ public class ForecaAPICommand implements WeatherAPICommand {
             }
             json.append("]");
             json.append("}");
-            json.append("}"); 
-            
-            
-            
         } catch (MalformedURLException rat) {
             rat.printStackTrace(); //bad url or query
         } 

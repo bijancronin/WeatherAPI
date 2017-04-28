@@ -31,6 +31,7 @@ public class AddDefaultLocationServlet extends HttpServlet {
             String state = request.getParameter("state");
             String city = request.getParameter("city");
             String zipcode = request.getParameter("zipcode");
+            String country = request.getParameter("country");
             HttpSession session = request.getSession();
             String username = (String) session.getAttribute("username");
 
@@ -48,6 +49,7 @@ public class AddDefaultLocationServlet extends HttpServlet {
             location.setState(state);
             location.setCity(city);
             location.setZipcode(zipcode);
+            location.setCountry(country);
             UserSettings userSettings = new UserSettings();
             boolean isAdded = userSettings.addDefaultLocation(username, location);
             if (isAdded) {

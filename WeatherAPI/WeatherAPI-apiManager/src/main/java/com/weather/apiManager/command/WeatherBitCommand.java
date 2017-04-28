@@ -114,15 +114,13 @@ public class WeatherBitCommand implements WeatherAPICommand {
                 }
             }
             
-            json.append("],");
+            json.append("]},");
             
             json.append("\"daily\" : [");
-            json.append("]");
-            json.append("},");
+            json.append("],");
             
             json.append("\"alerts\" : []");
             json.append("}");
-            
         } catch (MalformedURLException rat) {
             rat.printStackTrace(); //bad url or query
         }

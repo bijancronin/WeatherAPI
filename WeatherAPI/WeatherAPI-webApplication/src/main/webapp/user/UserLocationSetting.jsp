@@ -34,6 +34,7 @@
                                     + location['longit'] + "','"
                                     + location['state'] + "','"
                                     + location['city'] + "','"
+                                    + location['country'] + "','"
                                     + location['zipcode'] + "')\">Select</button>";
                             responseText += "</td>";
                             responseText += "</tr>";
@@ -47,12 +48,13 @@
             });
         });
 
-        function chooseCity(latitude, longitude, state, city, zipcode) {
+        function chooseCity(latitude, longitude, state, city, country, zipcode) {
             var addFavoriteLocationForm = document.getElementById("addFavoriteLocationForm");
             addFavoriteLocationForm.latitude.value = latitude;
             addFavoriteLocationForm.longitude.value = longitude;
             addFavoriteLocationForm.state.value = state;
             addFavoriteLocationForm.city.value = city;
+            addFavoriteLocationForm.country.value = country;
             addFavoriteLocationForm.zipcode.value = zipcode;
             addFavoriteLocationForm.submit();
         }
@@ -68,11 +70,14 @@
             deleteFavoriteLocationForm.submit();
         }
 
-        function addDefaultLocation(latitude, longitude, city) {
+        function addDefaultLocation(latitude, longitude, city, state, country, zipcode) {
             var addDefaultLocationForm = document.getElementById("addDefaultLocationForm");
             addDefaultLocationForm.latitude.value = latitude;
             addDefaultLocationForm.longitude.value = longitude;
             addDefaultLocationForm.city.value = city;
+            addDefaultLocationForm.state.value = state;
+            addDefaultLocationForm.country.value = country;
+            addDefaultLocationForm.zipcode.value = zipcode;
             addDefaultLocationForm.submit();
         }
     </script>
@@ -83,7 +88,7 @@
 
         <div id="mySidenav" class="sidenav">
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-            <a href='<%=request.getContextPath()%>/user/UserHomepage.jsp'>Home</a>
+            <a href='<%=request.getContextPath()%>/user/FetchApiSubscriptionServlet'>Home</a>
             <a href="<%=request.getContextPath()%>/user/UserAccount.jsp">Account</a>
             <a href="<%=request.getContextPath()%>/user/UserSettings.jsp">Settings</a>
             <a href="<%=request.getContextPath()%>/user/LogoutServlet">Logout</a>
@@ -119,6 +124,7 @@
                     <input type="hidden" name="city"/>
                     <input type="hidden" name="state"/>
                     <input type="hidden" name="zipcode"/>
+                    <input type="hidden" name="country"/>
                 </form>
 
                 <div style = "text-align: center; margin-top: 3em;">
@@ -152,7 +158,7 @@
                             <c:forEach var="location" items='${requestScope["favoriteLocation"]}'>
                                 <tr>
                                     <td><c:out value="${location.city}"/></td>
-                                    <td><a href='javascript:addDefaultLocation("${location.lat}","${location.longit}","${location.city}")'>Make this Default</a></td>
+                                    <td><a href='javascript:addDefaultLocation("${location.lat}","${location.longit}","${location.city}","${location.state}","${location.country}","${location.zipcode}")'>Make this Default</a></td>
                                     <td><a href='javascript:deleteFavoriteLocation("${location.locationId}")'>Delete</a></td>
                                 </tr>
                             </c:forEach>
@@ -178,6 +184,9 @@
                         <input type="hidden" name="latitude"/>
                         <input type="hidden" name="longitude"/>
                         <input type="hidden" name="city"/>
+                        <input type="hidden" name="state"/>
+                        <input type="hidden" name="country"/>
+                        <input type="hidden" name="zipcode"/>
                     </form>
                 </div>
             </div> </div>
