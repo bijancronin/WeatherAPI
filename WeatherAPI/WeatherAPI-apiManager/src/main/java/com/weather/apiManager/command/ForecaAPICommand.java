@@ -7,7 +7,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -62,9 +61,12 @@ public class ForecaAPICommand implements WeatherAPICommand {
     @Override
     public String execute()  {
 
+    	if(key.getSecretKey() == "invalid" || key.getSecretKey() == "" || key.getSecretKey() == null) return null;
+    	
     	APIResponsesDAO apiResponseDAO = new APIResponsesDAO();
         String json = apiResponseDAO.getAPIResponse(
-                                                    APIResponsesDAO.FORECA, location);
+                                                    APIResponsesDAO.FORECA, location);        
+        
         if(json == null) {
             json = getJSON();
             APIResponseBean bean = new APIResponseBean();
@@ -82,7 +84,8 @@ public class ForecaAPICommand implements WeatherAPICommand {
 
     }
     
-    private String getJSON() {
+    private String getJSON() {    	
+    	
     	String latitude = String.valueOf(location.getLat());
     	String longitude = String.valueOf(location.getLongit());
         String fullQuery =

@@ -4,7 +4,6 @@ import com.weather.apiManager.dl.APIResponseBean;
 import com.weather.apiManager.dl.APIResponsesDAO;
 import java.sql.Timestamp;
 import java.util.Calendar;
-
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -28,6 +27,8 @@ public class WunderGroundCommand implements WeatherAPICommand {
     
     @Override
     public String execute() {
+    	if(key.getSecretKey() == "invalid" || key.getSecretKey() == "" || key.getSecretKey() == null) return null;
+    	
         APIResponsesDAO apiResponseDAO = new APIResponsesDAO();
         String json = apiResponseDAO.getAPIResponse(
                                                     APIResponsesDAO.WUNDER, location);
