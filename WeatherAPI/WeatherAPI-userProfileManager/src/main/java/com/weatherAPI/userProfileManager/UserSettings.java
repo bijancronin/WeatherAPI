@@ -83,8 +83,8 @@ public class UserSettings {
         try {
             if (connection != null) {
                 statement = connection.prepareStatement("UPDATE users "
-                        + "SET default_latitude = ?, default_longitude=?, default_city=? "
-                        + ", default_state=?, default_country=?, default_zipcode=?"
+                        + "SET default_latitude = ?, default_longitude = ?, default_city = ? "
+                        + ", default_state=?, default_country=?, default_zipcode=? "
                         + "WHERE username = ?");
                 statement.setDouble(1, location.getLat());
                 statement.setDouble(2, location.getLongit());

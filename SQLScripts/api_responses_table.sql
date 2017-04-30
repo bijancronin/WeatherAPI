@@ -14,7 +14,8 @@ api_key varchar(100) not null);
 
 create table users(
 username varchar(500) not null primary key,
-password varchar(500) not null,
+password varbinary(500) not null,
+salt varbinary(500) not null,
 name varchar(500) not null,
 default_city varchar(500),
 default_latitude double,
