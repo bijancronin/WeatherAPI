@@ -54,7 +54,8 @@ public class WeatherBitCommand implements WeatherAPICommand {
     private String getJSON() {
         String city = location.getCity();
         String country = location.getCountry();
-        String hourly = "https://api.weatherbit.io/v1.0/forecast/3hourly/geosearch?city=" + city + "&country=" + country + "&units=I&lang=uk&key=" + key.getSecretKey();
+        String state = location.getState();
+        String hourly = "https://api.weatherbit.io/v1.0/forecast/3hourly/geosearch?city=" + city + "&state=" + state + "&country=" + country + "&units=I&lang=uk&key=" + key.getSecretKey();
         
         StringBuilder json = new StringBuilder(0);
         
