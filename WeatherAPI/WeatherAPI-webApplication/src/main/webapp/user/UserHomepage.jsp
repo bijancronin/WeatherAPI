@@ -5,7 +5,36 @@
 </head>
     <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/layout.css">
     <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/libs/sidenav.css">
+    <style>
+        table, td, th {    
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            text-align: left;
+        }
 
+        table {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            border-collapse: collapse;
+            border:1px solid;
+            border-color:lightgrey;
+            width: 100%;
+        }
+
+        th, td {
+            padding: 10px;
+        }
+
+        tr {
+
+            color: grey;
+        }
+
+        th {
+
+            background-color: #CBEFE5;
+            color: dimgrey;
+            font-size: 18px;
+            font-weight: normal;}
+    </style>
     <script src = "https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
     <script src="https://raw2.github.com/medialize/URI.js/master/src/URI.js"></script>
     <script>
@@ -40,11 +69,9 @@
                         try {
                             var parsedLocation = $.parseJSON(response);
                             $("#userlocation").empty();
-                            $("#userlocation").append("<h2>Forecast for Location</h2>");
-                            $("#userlocation").append("City : "+parsedLocation["city"]);
-                            $("#userlocation").append("<br>State : "+parsedLocation["state"]);
-                            $("#userlocation").append("<br>Country : "+parsedLocation["country"]);
-                            $("#userlocation").append("<br>zipcode : "+parsedLocation["zipcode"]);
+                            $("#userlocation").append("<h3>Showing Forecast for : " + parsedLocation["city"] + ", " 
+                                    + parsedLocation["state"] + ", " + parsedLocation["zipcode"] + "</h3>");
+                            $("#userlocation").append("<br><a href='<%=request.getContextPath()%>/user/GetDefaultAndFavoriteLocationsServlet' >CHANGE LOCATION</a>");
                         } catch(e) {
                             console.log(e);
                             $("#userlocation").empty();
@@ -66,24 +93,88 @@
                         try {
                             $("#"+api).empty();
                             var parsedForecast = $.parseJSON(response);
-                            $("#"+api).append("<h2>" + api + "</h2>");
-                            $("#"+api).append("<label>Today's Weather</label>");
-                            $("#"+api).append("<br><label>");
-                            $("#"+api).append("Max Temperature : " + parsedForecast["daily"][0]["max_temperature"]);
-                            $("#"+api).append("<br>Min Temperature : " + parsedForecast["daily"][0]["min_temperature"]);
-                            $("#"+api).append("<br>Summary : " + parsedForecast["daily"][0]["summary"]);
-                            $("#"+api).append("</label>");
+                            var current = getCurrentForecast(parsedForecast["hourly"], api);
+                            $("#"+api).append("<table>");
+                            $("#"+api).append("<tr>");
+                            $("#"+api).append("<th>Forecast From</th>");
+                            $("#"+api).append("<th>Currently</th>");
+                            $("#"+api).append("<th>Condition</th>");
+                            $("#"+api).append("<th>High/Low</th>");
+                            $("#"+api).append("<th>Precipitation</th>");
+                            $("#"+api).append("<th>Wind</th>");
+                            $("#"+api).append("<th>Humidity</th>");
+                            $("#"+api).append("</tr>");
+                            $("#"+api).append("<tr>");
+                            $("#"+api).append("<td>" + api + "</td>");
+                            var currentTemperature = current["temperature"];
+                            var high = parsedForecast["daily"][0]["max_temperature"];
+                            var low = parsedForecast["daily"][0]["min_temperature"];
+                            if(api == 'foreca') {
+                                currentTemperature = convertCelsiusToFahrenheit(currentTemperature);
+                                high = convertCelsiusToFahrenheit(high);
+                                low = convertCelsiusToFahrenheit(low);
+                            }
+                            $("#"+api).append("<td>" + currentTemperature + "&#8457;</td>");
+                            $("#"+api).append("<td>" + current["summary"] + "</td>");
+                            $("#"+api).append("<td>" + high 
+                                    + "&#8457; /" + low 
+                                    + "&#8457;</td>");
+                            $("#"+api).append("<td>" + current["precipitation"] + "%</td>");
+                            $("#"+api).append("<td>" + current["wind_speed"] + "mph</td>");
+                            $("#"+api).append("<td>" + current["humidity"] + "%</td>");
+                            $("#"+api).append("</tr>");
+                            $("#"+api).append("</table>");
                         } catch(e) {
                             console.log(e);
-                            $("#"+api).append("<h2>" + api + "</h2>");
                             $("#"+api).empty();
-                            $("#"+api).append("Unable to fetch forecast for \"" + api
-                                    + "\" at this time");
+                            $("#"+api).append("<table>");
+                            $("#"+api).append("<tr>");
+                            $("#"+api).append("<th>Forecast From</th>");
+                            $("#"+api).append("<th>Currently</th>");
+                            $("#"+api).append("<th>Condition</th>");
+                            $("#"+api).append("<th>High/Low</th>");
+                            $("#"+api).append("<th>Precipitation</th>");
+                            $("#"+api).append("<th>Wind</th>");
+                            $("#"+api).append("<th>Humidity</th>");
+                            $("#"+api).append("</tr>");
+                            $("#"+api).append("<tr>");
+                            $("#"+api).append("<td>" + api + "</td>");
+                            $("#"+api).append("<td>--&#8457;</td>");
+                            $("#"+api).append("<td>-</td>");
+                            $("#"+api).append("<td>--&#8457; / --&#8457;</td>");
+                            $("#"+api).append("<td>--%</td>");
+                            $("#"+api).append("<td>--mph</td>");
+                            $("#"+api).append("<td>--%</td>");
+                            $("#"+api).append("</tr>");
+                            $("#"+api).append("</table>");
                         }
                     }
                 }
             );
         }
+        
+        function getCurrentForecast(hourly, api) {
+            if(api === 'wunder') {
+                return hourly["data"][0];
+            } else {
+                var d = new Date();
+                var currentTimeInMillis = Date.parse(d.getFullYear() + "-" + (d.getMonth()+1) + "-" + d.getDate() + " " + d.getHours() + ":00");
+                var currentIndex = 0;
+                $(hourly["data"]).each(function(index, forecast) {
+                    var timeInMillis = Date.parse(forecast["time"]);
+                    if(currentTimeInMillis === timeInMillis) {
+                        currentIndex = index;
+                    }
+                });
+                console.log(currentIndex);
+                return hourly["data"][currentIndex];
+            }
+        }
+        
+        function convertCelsiusToFahrenheit(temperatureC) {
+            return Math.round(temperatureC * 1.8 + 32);
+        }
+        
     </script>
     <body>
         <span style="font-size:25px;cursor:pointer;color:grey" onclick="openNav()">&#9776;</span>
@@ -96,7 +187,7 @@
             <a href="<%=request.getContextPath()%>/user/LogoutServlet">Logout</a>
         </div>
 
-        <h2><p align = "center" margin-bottom = 4em>Welcome <c:out value='${sessionScope["name"]}'/></p></h2>
+        <h2><p align = "center">Welcome <c:out value='${sessionScope["name"]}'/></p></h2>
         
         <div class = "centeredOuter"> <div class = "centeredInner">
                 <div style = "text-align: center; margin-bottom: 10em;">

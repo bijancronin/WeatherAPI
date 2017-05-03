@@ -5,7 +5,36 @@
 </head>
     <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/layout.css">
     <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/libs/sidenav.css">
+    <style>
+        table, td, th {    
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            text-align: left;
+        }
 
+        table {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            border-collapse: collapse;
+            border:1px solid;
+            border-color:lightgrey;
+            width: 100%;
+        }
+
+        th, td {
+            padding: 10px;
+        }
+
+        tr {
+
+            color: grey;
+        }
+
+        th {
+
+            background-color: #CBEFE5;
+            color: dimgrey;
+            font-size: 18px;
+            font-weight: normal;}
+    </style>
     <script src = "https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
     <script src="https://raw2.github.com/medialize/URI.js/master/src/URI.js"></script>
     <script>
@@ -31,13 +60,13 @@
                             responseText += location['zipcode'];
                             responseText += "</td>";
                             responseText += "<td>";
-                            responseText += "<button onclick=\"chooseCity('"
+                            responseText += "<a href=\"javascript:chooseCity('"
                                     + location['lat'] + "','"
                                     + location['longit'] + "','"
                                     + location['state'] + "','"
                                     + location['city'] + "','"
                                     + location['country'] + "','"
-                                    + location['zipcode'] + "')\">Select</button>";
+                                    + location['zipcode'] + "')\">Select</a>";
                             responseText += "</td>";
                             responseText += "</tr>";
                         });
@@ -135,8 +164,8 @@
                         <h2>Default Location</h2>
                         <table>
                             <tr>
-                                <td>City</td>
-                                <td>Delete</td>
+                                <th>City</th>
+                                <th>Delete</th>
                             </tr>
                             <tr>
                                 <td><c:out value="${defaultLocation.city}" /></td>
@@ -152,9 +181,9 @@
                         <h2>Favorite Locations</h2>
                         <table>
                             <tr>
-                                <td>City</td>
-                                <td>Make this Default</td>
-                                <td>Delete</td>
+                                <th>City</th>
+                                <th>Make this Default</th>
+                                <th>Delete</th>
                             </tr>
 
                             <c:forEach var="location" items='${requestScope["favoriteLocation"]}'>

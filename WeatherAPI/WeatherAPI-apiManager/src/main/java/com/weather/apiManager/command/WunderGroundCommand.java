@@ -71,6 +71,7 @@ public class WunderGroundCommand implements WeatherAPICommand {
         try {
             //we'll get the json data from the url (using autoip) and stick its head into the inputSteam for reading
             URL url = new URL(fullQuery);
+            System.out.println(fullQuery);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             InputStream inputStream = connection.getInputStream();
             
