@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head><meta id="meta" name="viewport" content="width=device-width; initial-scale=1.0" />
-</head>
+
     <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/layout.css">
     <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/libs/sidenav.css">
     <style>
@@ -41,8 +41,8 @@
         $(document).ready(function () {
             var apiSubscription = '${apiSubscription}';
             if(!$.trim(apiSubscription)) {
-                $('#errorMessage').empty();
-                $('#errorMessage').append("Invalid Request!")
+                var url = "<%=request.getContextPath()%>/user/FetchApiSubscriptionServlet";
+                $(location).attr('href',url);
                 return;
             } else {
                 var parsedApiSubscription = $.parseJSON(apiSubscription);
@@ -87,8 +87,26 @@
                 , function(response) {
                     if(!$.trim(response)) {
                         $("#"+api).empty();
-                        $("#"+api).append("Unable to fetch forecast for \"" + api
-                                + "\" at this time");
+                            $("#"+api).append("<table>");
+                            $("#"+api).append("<tr>");
+                            $("#"+api).append("<th>Forecast From</th>");
+                            $("#"+api).append("<th>Currently</th>");
+                            $("#"+api).append("<th>Condition</th>");
+                            $("#"+api).append("<th>High/Low</th>");
+                            $("#"+api).append("<th>Precipitation</th>");
+                            $("#"+api).append("<th>Wind</th>");
+                            $("#"+api).append("<th>Humidity</th>");
+                            $("#"+api).append("</tr>");
+                            $("#"+api).append("<tr>");
+                            $("#"+api).append("<td>" + api + "</td>");
+                            $("#"+api).append("<td>--&#8457;</td>");
+                            $("#"+api).append("<td>-</td>");
+                            $("#"+api).append("<td>--&#8457; / --&#8457;</td>");
+                            $("#"+api).append("<td>--%</td>");
+                            $("#"+api).append("<td>--mph</td>");
+                            $("#"+api).append("<td>--%</td>");
+                            $("#"+api).append("</tr>");
+                            $("#"+api).append("</table>");
                     } else {
                         try {
                             $("#"+api).empty();
@@ -107,9 +125,17 @@
                             $("#"+api).append("<tr>");
                             $("#"+api).append("<td>" + api + "</td>");
                             var currentTemperature = current["temperature"];
-                            var high = parsedForecast["daily"][0]["max_temperature"];
-                            var low = parsedForecast["daily"][0]["min_temperature"];
-                            if(api == 'foreca') {
+                            var high = '';
+                            var low = '';
+                            if(api === 'weatherbit') {
+                                currentTemperature = convertCelsiusToFahrenheit(currentTemperature);
+                                high = currentTemperature;
+                                low = currentTemperature;
+                            } else {
+                                high = parsedForecast["daily"][0]["max_temperature"];
+                                low = parsedForecast["daily"][0]["min_temperature"];
+                            }
+                            if(api === 'foreca') {
                                 currentTemperature = convertCelsiusToFahrenheit(currentTemperature);
                                 high = convertCelsiusToFahrenheit(high);
                                 low = convertCelsiusToFahrenheit(low);
@@ -156,6 +182,8 @@
         function getCurrentForecast(hourly, api) {
             if(api === 'wunder') {
                 return hourly["data"][0];
+            } else if(api === 'weatherbit') {
+                return hourly["data"][0];
             } else {
                 var d = new Date();
                 var currentTimeInMillis = Date.parse(d.getFullYear() + "-" + (d.getMonth()+1) + "-" + d.getDate() + " " + d.getHours() + ":00");
@@ -176,6 +204,7 @@
         }
         
     </script>
+    </head>
     <body>
         <span style="font-size:25px;cursor:pointer;color:grey" onclick="openNav()">&#9776;</span>
 

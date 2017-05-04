@@ -2,14 +2,14 @@
 <!DOCTYPE html>
 <html>
 <head><meta id="meta" name="viewport" content="width=device-width; initial-scale=1.0" />
-</head>
+
     <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/layout.css">
     <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/libs/slider.css">
     <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/libs/sidenav.css">
 
     <script src = "https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
     <script src="https://raw2.github.com/medialize/URI.js/master/src/URI.js"></script>
-
+</head>
     <body>
 
         <div id="mySidenav" class="sidenav">

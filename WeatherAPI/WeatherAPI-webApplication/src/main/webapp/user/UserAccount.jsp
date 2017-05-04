@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head><meta id="meta" name="viewport" content="width=device-width; initial-scale=1.0" />
-</head>
+
     <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/layout.css">
     <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/libs/sidenav.css">
 
@@ -31,6 +31,7 @@
         }
 
     </script>
+    </head>
     <body>
         <span style="font-size:25px;cursor:pointer;color:grey" onclick="openNav()">&#9776;</span>
 
