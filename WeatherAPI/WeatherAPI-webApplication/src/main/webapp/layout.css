@@ -33,7 +33,7 @@ h1 {
 	color: rgb(80,210,194);
 	font-style: bold;
 	font-variant: normal;
-	line-height: 26px;
+	line-height: 37px;
 	padding-top: 1em;
 }
 
@@ -59,7 +59,7 @@ h3 {
 	font-style: normal;
 	font-variant: normal;
 	margin-right: 3em;
-        margin-top:0;
+    margin-top:0;
 }
 
 form {
