@@ -33,7 +33,43 @@
             background-color: #CBEFE5;
             color: dimgrey;
             font-size: 18px;
-            font-weight: normal;}
+            font-weight: normal;
+        }
+        
+        input::-webkit-input-placeholder { /* WebKit browsers */
+            text-indent: 5px;
+        }
+
+        input[type="search"] {
+
+            height: 33px;
+            width: 250px;
+            margin: 0;
+            padding-bottom: 4px;
+            font-size: 15px;
+            border: 0;
+            background-color: white;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            color: grey;
+            -webkit-appearance:none;
+
+
+        }
+
+        input[type="submit"] {
+            height: 33px;
+            width: 50px;
+            margin: 0;
+            padding: 0;
+            font-size: 12px;
+            background-color: rgb(80,210,194);
+            border: 0;
+            color: white;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+        }
+
     </style>
     <script src = "https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
     <script src="https://raw2.github.com/medialize/URI.js/master/src/URI.js"></script>
@@ -49,7 +85,7 @@
                         $('#locations').append("<tr><td>No Records Found</td></tr>");
                     } else {
                         var parsedJson = $.parseJSON(response);
-                        var responseText = "<table>";
+                        var responseText = "<table width='100%'>";
                         $(parsedJson).each(function (i, location) {
                             responseText += "<tr>";
                             responseText += "<td>";
@@ -66,7 +102,7 @@
                                     + location['state'] + "','"
                                     + location['city'] + "','"
                                     + location['country'] + "','"
-                                    + location['zipcode'] + "')\">Select</a>";
+                                    + location['zipcode'] + "')\">ADD TO FAVORITE</a>";
                             responseText += "</td>";
                             responseText += "</tr>";
                         });
@@ -126,7 +162,7 @@
             <a href="<%=request.getContextPath()%>/user/LogoutServlet">Logout</a>
         </div>
 
-        <div class = "centeredOuter"> <div class = "centeredInner">
+        <div class = "centeredOuter"> <div class = "centeredInner" style="width:80%;">
                 <div style = "text-align: center; margin-bottom: 10em;">
                     <h1>Location Settings</h1>
                     <h2 style="color:red;">
@@ -140,11 +176,12 @@
                         </c:if>
                     </h2>
                 </div>
-                <label for="city">Enter City</label>
-                <input type="text" id="city" name="city">
-                <button id="fetch_location">Search</button>
+                <div style = "text-align: center; ">
+                    <input style="width:80%;" type="search" id="city" name="city" placeholder="Search city, zip, or place"/>
+                    <input id="fetch_location" type="submit" value = "GO"/>
+                </div>
                 <div style = "text-align: center; margin-top: 3em;">
-                    <table id="locations">
+                    <table id="locations" width="100%">
 
                     </table>
                 </div>
@@ -163,14 +200,14 @@
                     <c:if test='${requestScope["defaultLocation"] != null}' >
                         <c:set var="defaultLocation" value='${requestScope["defaultLocation"]}'/>
                         <h2>Default Location</h2>
-                        <table>
+                        <table width="100%">
                             <tr>
                                 <th>City</th>
                                 <th>Delete</th>
                             </tr>
                             <tr>
                                 <td><c:out value="${defaultLocation.city}" /></td>
-                                <td><a href='javascript:deleteDefaultLocation()'>Delete</a></td>
+                                <td><a href='javascript:deleteDefaultLocation()'>DELETE</a></td>
                             </tr>
                         </table>
                     </c:if>
@@ -180,7 +217,7 @@
                     <br><br><br>
                     <c:if test='${requestScope["favoriteLocation"] != null}'>
                         <h2>Favorite Locations</h2>
-                        <table>
+                        <table width="100%">
                             <tr>
                                 <th>City</th>
                                 <th>Make this Default</th>
@@ -190,8 +227,8 @@
                             <c:forEach var="location" items='${requestScope["favoriteLocation"]}'>
                                 <tr>
                                     <td><c:out value="${location.city}"/></td>
-                                    <td><a href='javascript:addDefaultLocation("${location.lat}","${location.longit}","${location.city}","${location.state}","${location.country}","${location.zipcode}")'>Make this Default</a></td>
-                                    <td><a href='javascript:deleteFavoriteLocation("${location.locationId}")'>Delete</a></td>
+                                    <td><a href='javascript:addDefaultLocation("${location.lat}","${location.longit}","${location.city}","${location.state}","${location.country}","${location.zipcode}")'>MAKE DEFAULT</a></td>
+                                    <td><a href='javascript:deleteFavoriteLocation("${location.locationId}")'>DELETE</a></td>
                                 </tr>
                             </c:forEach>
                         </table>

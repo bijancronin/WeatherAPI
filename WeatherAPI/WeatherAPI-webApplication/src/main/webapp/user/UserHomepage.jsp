@@ -87,43 +87,31 @@
                 , function(response) {
                     if(!$.trim(response)) {
                         $("#"+api).empty();
-                            $("#"+api).append("<table>");
-                            $("#"+api).append("<tr>");
-                            $("#"+api).append("<th>Forecast From</th>");
-                            $("#"+api).append("<th>Currently</th>");
-                            $("#"+api).append("<th>Condition</th>");
-                            $("#"+api).append("<th>High/Low</th>");
-                            $("#"+api).append("<th>Precipitation</th>");
-                            $("#"+api).append("<th>Wind</th>");
-                            $("#"+api).append("<th>Humidity</th>");
-                            $("#"+api).append("</tr>");
-                            $("#"+api).append("<tr>");
-                            $("#"+api).append("<td>" + api + "</td>");
-                            $("#"+api).append("<td>--&#8457;</td>");
-                            $("#"+api).append("<td>-</td>");
-                            $("#"+api).append("<td>--&#8457; / --&#8457;</td>");
-                            $("#"+api).append("<td>--%</td>");
-                            $("#"+api).append("<td>--mph</td>");
-                            $("#"+api).append("<td>--%</td>");
-                            $("#"+api).append("</tr>");
-                            $("#"+api).append("</table>");
+                        $("#"+api).append("<table width='100%'>"
+                        + "<tr>"
+                        + "<th>Forecast From</th>"
+                        + "<th>Currently</th>"
+                        + "<th>Condition</th>"
+                        + "<th>High/Low</th>"
+                        + "<th>Precipitation</th>"
+                        + "<th>Wind</th>"
+                        + "<th>Humidity</th>"
+                        + "</tr>"
+                        + "<tr>"
+                        + "<td>" + api + "</td>"
+                        + "<td>--&#8457;</td>"
+                        + "<td>-</td>"
+                        + "<td>--&#8457; / --&#8457;</td>"
+                        + "<td>--%</td>"
+                        + "<td>--mph</td>"
+                        + "<td>--%</td>"
+                        + "</tr>"
+                        + "</table>");
                     } else {
                         try {
                             $("#"+api).empty();
                             var parsedForecast = $.parseJSON(response);
                             var current = getCurrentForecast(parsedForecast["hourly"], api);
-                            $("#"+api).append("<table>");
-                            $("#"+api).append("<tr>");
-                            $("#"+api).append("<th>Forecast From</th>");
-                            $("#"+api).append("<th>Currently</th>");
-                            $("#"+api).append("<th>Condition</th>");
-                            $("#"+api).append("<th>High/Low</th>");
-                            $("#"+api).append("<th>Precipitation</th>");
-                            $("#"+api).append("<th>Wind</th>");
-                            $("#"+api).append("<th>Humidity</th>");
-                            $("#"+api).append("</tr>");
-                            $("#"+api).append("<tr>");
-                            $("#"+api).append("<td>" + api + "</td>");
                             var currentTemperature = current["temperature"];
                             var high = '';
                             var low = '';
@@ -140,39 +128,51 @@
                                 high = convertCelsiusToFahrenheit(high);
                                 low = convertCelsiusToFahrenheit(low);
                             }
-                            $("#"+api).append("<td>" + currentTemperature + "&#8457;</td>");
-                            $("#"+api).append("<td>" + current["summary"] + "</td>");
-                            $("#"+api).append("<td>" + high 
-                                    + "&#8457; /" + low 
-                                    + "&#8457;</td>");
-                            $("#"+api).append("<td>" + current["precipitation"] + "%</td>");
-                            $("#"+api).append("<td>" + current["wind_speed"] + "mph</td>");
-                            $("#"+api).append("<td>" + current["humidity"] + "%</td>");
-                            $("#"+api).append("</tr>");
-                            $("#"+api).append("</table>");
+                            $("#"+api).append("<table width='100%'>"
+                            + "<tr>"
+                            + "<th>Forecast From</th>"
+                            + "<th>Currently</th>"
+                            + "<th>Condition</th>"
+                            + "<th>High/Low</th>"
+                            + "<th>Precipitation</th>"
+                            + "<th>Wind</th>"
+                            + "<th>Humidity</th>"
+                            + "</tr>"
+                            + "<tr>"
+                            + "<td>" + api + "</td>"
+                            + "<td>" + currentTemperature + "&#8457;</td>"
+                            + "<td>" + current["summary"] + "</td>"
+                            + "<td>" + high 
+                            + "&#8457; /" + low 
+                            + "&#8457;</td>"
+                            + "<td>" + current["precipitation"] + "%</td>"
+                            + "<td>" + current["wind_speed"] + "mph</td>"
+                            + "<td>" + current["humidity"] + "%</td>"
+                            + "</tr>"
+                            + "</table>");
                         } catch(e) {
                             console.log(e);
                             $("#"+api).empty();
-                            $("#"+api).append("<table>");
-                            $("#"+api).append("<tr>");
-                            $("#"+api).append("<th>Forecast From</th>");
-                            $("#"+api).append("<th>Currently</th>");
-                            $("#"+api).append("<th>Condition</th>");
-                            $("#"+api).append("<th>High/Low</th>");
-                            $("#"+api).append("<th>Precipitation</th>");
-                            $("#"+api).append("<th>Wind</th>");
-                            $("#"+api).append("<th>Humidity</th>");
-                            $("#"+api).append("</tr>");
-                            $("#"+api).append("<tr>");
-                            $("#"+api).append("<td>" + api + "</td>");
-                            $("#"+api).append("<td>--&#8457;</td>");
-                            $("#"+api).append("<td>-</td>");
-                            $("#"+api).append("<td>--&#8457; / --&#8457;</td>");
-                            $("#"+api).append("<td>--%</td>");
-                            $("#"+api).append("<td>--mph</td>");
-                            $("#"+api).append("<td>--%</td>");
-                            $("#"+api).append("</tr>");
-                            $("#"+api).append("</table>");
+                            $("#"+api).append("<table width='100%'>"
+                            + "<tr>"
+                            + "<th>Forecast From</th>"
+                            + "<th>Currently</th>"
+                            + "<th>Condition</th>"
+                            + "<th>High/Low</th>"
+                            + "<th>Precipitation</th>"
+                            + "<th>Wind</th>"
+                            + "<th>Humidity</th>"
+                            + "</tr>"
+                            + "<tr>"
+                            + "<td>" + api + "</td>"
+                            + "<td>--&#8457;</td>"
+                            + "<td>-</td>"
+                            + "<td>--&#8457; / --&#8457;</td>"
+                            + "<td>--%</td>"
+                            + "<td>--mph</td>"
+                            + "<td>--%</td>"
+                            + "</tr>"
+                            + "</table>");
                         }
                     }
                 }
@@ -219,7 +219,7 @@
         <h2><p align = "center">Welcome <c:out value='${sessionScope["name"]}'/></p></h2>
         
         <div class = "centeredOuter"> <div class = "centeredInner">
-                <div style = "text-align: center; margin-bottom: 10em;">
+                <div style = "text-align: center; margin-bottom: 2em;">
                     <h1>Forecast</h1>
                     <h2 id="errorMessage" style="color:red;">
                         <c:if test="${error != null}">
@@ -233,7 +233,7 @@
                     </h2>
                 </div>
                 
-                <div id="api_forecasts" style = "text-align: center; margin-top: 3em;">
+                <div id="api_forecasts" style = "width: 100%; text-align: center;">
                 </div>
                 
             </div> </div>

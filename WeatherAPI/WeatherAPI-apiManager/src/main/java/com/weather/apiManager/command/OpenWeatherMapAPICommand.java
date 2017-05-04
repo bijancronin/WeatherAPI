@@ -51,6 +51,9 @@ public class OpenWeatherMapAPICommand implements WeatherAPICommand {
             APIResponseBean bean = new APIResponseBean();
             bean.setLatitude(location.getLat());
             bean.setLongitude(location.getLongit());
+            bean.setCity(location.getCity());
+            bean.setState(location.getState());
+            bean.setCountry(location.getCountry());
             bean.setApi(APIResponsesDAO.OPEN_WEATHER_MAP);
             bean.setJson(json);
             bean.setRequestTime(new Timestamp(Calendar.getInstance().getTimeInMillis()));
@@ -209,6 +212,8 @@ public class OpenWeatherMapAPICommand implements WeatherAPICommand {
                 }
             }
             
+            json.append("],");
+            json.append("\"alerts\":[");
             json.append("]");
             json.append("}");
             

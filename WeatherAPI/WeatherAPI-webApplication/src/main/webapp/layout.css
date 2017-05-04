@@ -58,7 +58,8 @@ h3 {
 	display: inline-block;
 	font-style: normal;
 	font-variant: normal;
-	margin-right: 6.5em
+	margin-right: 3em;
+        margin-top:0;
 }
 
 form {
